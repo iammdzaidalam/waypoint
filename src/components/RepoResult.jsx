@@ -54,8 +54,8 @@ export default function RepoResult({ data, onTrace }) {
     let valB = b[1][sortConfig.key];
     
     if (sortConfig.key === 'mergeRate') {
-      valA = a[1].merged + a[1].closed > 0 ? (a[1].merged / (a[1].merged + a[1].closed)) : 0;
-      valB = b[1].merged + b[1].closed > 0 ? (b[1].merged / (b[1].merged + b[1].closed)) : 0;
+      valA = a[1].count > 0 ? (a[1].merged / a[1].count) : 0;
+      valB = b[1].count > 0 ? (b[1].merged / b[1].count) : 0;
     }
     
     if (valA < valB) return sortConfig.direction === 'desc' ? 1 : -1;
@@ -160,8 +160,7 @@ export default function RepoResult({ data, onTrace }) {
         </div>
         <div className="people-grid">
           {topContributors.map(([login, pdata]) => {
-            const decided = pdata.merged + pdata.closed;
-            const rate = decided > 0 ? Math.round((pdata.merged / decided) * 100) : 0;
+            const rate = pdata.count > 0 ? Math.round((pdata.merged / pdata.count) * 100) : 0;
             return (
               <div key={login} className="person-card">
                 <div className="person-top">
