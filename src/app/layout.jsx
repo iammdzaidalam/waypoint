@@ -1,5 +1,6 @@
 import './globals.css';
 import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'Waypoint — find where they actually spend their time on GitHub',
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
         {children}
+        <Analytics />
       </body>
     </html>
   );
