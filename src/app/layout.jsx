@@ -1,4 +1,5 @@
 import './globals.css';
+import Script from 'next/script';
 
 export const metadata = {
   title: 'Waypoint — find where they actually spend their time on GitHub',
@@ -7,8 +8,22 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+      </head>
+      <body>
+        <Script id="theme-script" strategy="beforeInteractive">
+          {`
+            (function() {
+              try {
+                var savedTheme = localStorage.getItem('waypoint_theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+              } catch (e) {}
+            })();
+          `}
+        </Script>
+        {children}
+      </body>
     </html>
   );
 }

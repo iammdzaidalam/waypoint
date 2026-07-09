@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { buildUserAnalysis } from '../lib/utils';
 import { CacheService, HistoryService } from '../lib/services';
+import { analyzeQuery } from '../lib/analyze';
 
 export function useWaypoint() {
   const [token, setToken] = useState('');
@@ -44,21 +45,7 @@ export function useWaypoint() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     try {
-      let backendUrl = `/api/analyze?query=${encodeURIComponent(query)}`;
-      if (forceType) backendUrl += `&forceType=${forceType}`;
-      
-      const fetchOptions = {};
-      if (token) {
-        fetchOptions.headers = { 'x-github-token': token };
-      }
-      
-      const res = await fetch(backendUrl, fetchOptions);
-      const data = await res.json();
-      
-      if (!res.ok) {
-        if (data.error) throw new Error(data.error);
-        throw new Error('INTERNAL_ERROR');
-      }
+      const data = await analyzeQuery(query, forceType, token, setStatus);
       
       setResult(data);
       HistoryService.addHistory(query, data.type);
@@ -77,7 +64,7 @@ export function useWaypoint() {
       setStatus('');
     } finally {
       setLoading(false);
-      setStatus(s => /^(Looking|Reading|Sampling)/.test(s) ? '' : s);
+      setStatus('');
     }
   };
 

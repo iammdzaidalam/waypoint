@@ -2,7 +2,7 @@ import { EVENT_LABELS, timeAgo } from '../lib/utils';
 
 export default function UserResult({ data, onTrace }) {
   const { userData, analysis, prLifetime, userPRs } = data;
-  const { topRepos, topTypes, timeline, totalEvents } = analysis;
+  let { topRepos, topTypes, timeline, totalEvents } = analysis;
   const maxTypeCount = topTypes.length ? topTypes[0][1] : 1;
   const mergeRate = prLifetime?.total > 0 ? Math.round((prLifetime.merged / prLifetime.total) * 100) : null;
 
@@ -16,6 +16,34 @@ export default function UserResult({ data, onTrace }) {
     });
   }
   const topPRRepos = Object.entries(repoPRs).sort((a, b) => b[1].prCount - a[1].prCount);
+
+  // Augment timeline with our robust PR data (fixes missing events for highly active bots)
+  if (userPRs && userPRs.length > 0) {
+    const prItems = userPRs.map(pr => {
+      const repoName = pr.repository_url.split('/').slice(-2).join('/');
+      return {
+        repo: repoName,
+        date: pr.created_at,
+        type: 'PullRequestEvent',
+        title: pr.title,
+        url: pr.html_url,
+        action: 'opened'
+      };
+    });
+
+    const combined = [...timeline, ...prItems].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const unique = [];
+    const seen = new Set();
+    
+    for (const item of combined) {
+      if (item.url) {
+        if (!seen.has(item.url)) { seen.add(item.url); unique.push(item); }
+      } else {
+        unique.push(item);
+      }
+    }
+    timeline = unique.slice(0, 12);
+  }
 
   return (
     <div className="fade-in">

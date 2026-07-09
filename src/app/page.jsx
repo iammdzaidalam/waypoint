@@ -60,7 +60,7 @@ function WaypointContent() {
       )}
 
       <form className="searchForm" onSubmit={e => { e.preventDefault(); runTrace(input); }}>
-        <input type="text" value={input} onChange={e => setInput(e.target.value)} placeholder="username, org, or owner/repo — e.g. jaegertracing/jaeger" autoComplete="off" />
+        <input type="text" value={input} onChange={e => setInput(e.target.value)} placeholder="username, org, or owner/repo" autoComplete="off" />
         <button type="submit" className="traceBtn" disabled={loading}>Trace</button>
       </form>
 
@@ -129,8 +129,6 @@ function WaypointContent() {
         {result?.type === 'org' && <OrgResult data={result} onTrace={runTrace} />}
         {result?.type === 'repo' && <RepoResult data={result} onTrace={runTrace} />}
       </div>
-
-      <footer className="credit"></footer>
     </div>
     </>
   );
