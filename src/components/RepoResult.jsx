@@ -85,7 +85,7 @@ export default function RepoResult({ data, onTrace }) {
   return (
     <div className="fade-in">
       <div className="subject-card">
-        <img src={`${repoData.owner.avatar_url}&s=112`} alt="" />
+        <img src={`${repoData.owner.avatar_url}&s=112`} alt={`${repoData.owner.login} avatar`} width={56} height={56} />
         <div>
           <div className="name">{repoData.full_name}</div>
           <div className="login"><a href={repoData.html_url} target="_blank" rel="noopener noreferrer">view on github</a> · repository</div>
@@ -161,7 +161,7 @@ export default function RepoResult({ data, onTrace }) {
             return (
               <div key={login} className="person-card">
                 <div className="person-top">
-                  <img src={`${pdata.avatar}&s=68`} alt="" />
+                  <img src={`${pdata.avatar}&s=68`} alt={`${login} avatar`} width={34} height={34} />
                   <div>
                     <div className="person-login">{login}</div>
                     <div className="person-meta" style={{ lineHeight: '1.4' }}>

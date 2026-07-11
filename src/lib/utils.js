@@ -1,3 +1,9 @@
+export function buildTracePath(rawQuery) {
+  const trimmed = (rawQuery || '').trim().replace(/^@/, '').replace(/\/+$/, '');
+  if (!trimmed) return '/';
+  return '/' + trimmed.split('/').filter(Boolean).map(encodeURIComponent).join('/');
+}
+
 export const EVENT_LABELS = {
   PushEvent: 'commit',
   IssuesEvent: 'issue',

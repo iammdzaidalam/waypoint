@@ -9,7 +9,7 @@ export default function OrgResult({ data, onTrace }) {
   return (
     <div className="fade-in">
       <div className="subject-card">
-        <img src={`${orgData.avatar_url}&s=112`} alt="" />
+        <img src={`${orgData.avatar_url}&s=112`} alt={`${orgData.login} avatar`} width={56} height={56} />
         <div>
           <div className="name">{orgData.name || orgData.login}</div>
           <div className="login"><a href={orgData.html_url} target="_blank" rel="noopener noreferrer">@{orgData.login}</a> · organization</div>
@@ -43,13 +43,13 @@ export default function OrgResult({ data, onTrace }) {
           {keyContributors.map(([login, pdata]) => (
             <div key={login} className="person-card">
               <div className="person-top">
-                <img src={`${pdata.avatar}&s=68`} alt="" />
+                <img src={`${pdata.avatar}&s=68`} alt={`${login} avatar`} width={34} height={34} />
                 <div>
                   <div className="person-login">{login}</div>
                   <div className="person-meta">{pdata.total} contributions</div>
                 </div>
               </div>
-              {memberLogins.has(login) && <span className="person-tag">public member</span>}
+              {memberLogins.includes(login) && <span className="person-tag">public member</span>}
               <button className="trace-btn" onClick={() => onTrace(login)}>Trace this person →</button>
             </div>
           ))}
@@ -64,7 +64,7 @@ export default function OrgResult({ data, onTrace }) {
             {extraMembers.slice(0, 12).map(m => (
               <div key={m.login} className="person-card">
                 <div className="person-top">
-                  <img src={`${m.avatar_url}&s=68`} alt="" />
+                  <img src={`${m.avatar_url}&s=68`} alt={`${m.login} avatar`} width={34} height={34} />
                   <div className="person-login">{m.login}</div>
                 </div>
                 <button className="trace-btn" onClick={() => onTrace(m.login)}>Trace this person →</button>

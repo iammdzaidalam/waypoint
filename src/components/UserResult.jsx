@@ -70,7 +70,7 @@ export default function UserResult({ data, onTrace }) {
   return (
     <div className="fade-in">
       <div className="subject-card">
-        <img src={`${userData.avatar_url}&s=112`} alt="" />
+        <img src={`${userData.avatar_url}&s=112`} alt={`${userData.login} avatar`} width={56} height={56} />
         <div>
           <div className="name">{userData.name || userData.login}</div>
           <div className="login"><a href={userData.html_url} target="_blank" rel="noopener noreferrer">@{userData.login}</a></div>
