@@ -15,14 +15,14 @@ function WaypointContent() {
     runTrace
   } = useWaypoint();
   const [history, setHistory] = useState([]);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
     setHistory(HistoryService.getHistory());
   }, [result]);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('waypoint_theme') || 'dark';
+    const savedTheme = localStorage.getItem('waypoint_theme') || 'light';
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);

@@ -3,7 +3,7 @@ import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
-  title: 'Waypoint — find where they actually spend their time on GitHub',
+  title: 'Waypoint · Find where they actually spend their time on GitHub',
   description: 'Point it at a person, an org, or a repo like jaegertracing/jaeger.',
 };
 
@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
           {`
             (function() {
               try {
-                var savedTheme = localStorage.getItem('waypoint_theme') || 'dark';
+                var savedTheme = localStorage.getItem('waypoint_theme') || 'light';
                 document.documentElement.setAttribute('data-theme', savedTheme);
               } catch (e) {}
             })();

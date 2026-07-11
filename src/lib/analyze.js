@@ -33,21 +33,34 @@ export async function analyzeQuery(query, forceType, userToken, setStatus) {
     const [owner, repo] = parts;
     
     const repoDataPromise = fetchGH(`https://api.github.com/repos/${owner}/${repo}`);
-    let allPRs = [];
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+    const pullsUrl = page => `https://api.github.com/repos/${owner}/${repo}/pulls?state=all&per_page=100&page=${page}&sort=created&direction=desc`;
+    // The /issues endpoint returns both issues and PRs; a single recent page is
+    // enough since the UI only shows the latest ~15 alongside the PR list.
+    const issuesUrl = `https://api.github.com/repos/${owner}/${repo}/issues?state=all&per_page=100&sort=created&direction=desc`;
 
-    for (let page = 1; page <= 5; page++) {
-      setStatus(`Scanning PRs page ${page}...`);
-      const batch = await fetchGH(`https://api.github.com/repos/${owner}/${repo}/pulls?state=all&per_page=100&page=${page}&sort=created&direction=desc`).catch(() => []);
-      if (!batch || batch.length === 0) break;
-      allPRs = allPRs.concat(batch);
-      if (batch.length < 100) break;
-      const lastDate = new Date(batch[batch.length - 1].created_at);
-      if (lastDate < sixMonthsAgo) break;
+    setStatus('Scanning PRs...');
+    const [firstBatch, issuesBatch] = await Promise.all([
+      fetchGH(pullsUrl(1)).catch(() => []),
+      fetchGH(issuesUrl).catch(() => [])
+    ]);
+    let allPRs = firstBatch || [];
+    const allIssues = (issuesBatch || []).filter(i => !i.pull_request);
+
+    // If page 1 is full and still within the window, grab the remaining pages in parallel
+    if (allPRs.length === 100 && new Date(allPRs[99].created_at) >= sixMonthsAgo) {
+      setStatus('Scanning more PRs...');
+      const rest = await Promise.all([2, 3, 4, 5].map(p => fetchGH(pullsUrl(p)).catch(() => [])));
+      for (const batch of rest) {
+        if (!batch || batch.length === 0) break;
+        allPRs = allPRs.concat(batch);
+        if (batch.length < 100) break;
+        if (new Date(batch[batch.length - 1].created_at) < sixMonthsAgo) break;
+      }
     }
     const repoData = await repoDataPromise;
-    return { type: 'repo', repoData, allPRs, queryParamSaved: `${owner}/${repo}` };
+    return { type: 'repo', repoData, allPRs, allIssues, queryParamSaved: `${owner}/${repo}` };
   } else {
     setStatus(`Identifying ${query}...`);
     const userData = await fetchGH(`https://api.github.com/users/${query}`);
@@ -79,33 +92,45 @@ export async function analyzeQuery(query, forceType, userToken, setStatus) {
       return { type: 'org', orgData: userData, activeRepos, keyContributors, members: members || [], memberLogins, queryParamSaved: query };
     } else {
       const login = query;
-      const sixMonthsAgo = new Date();
-      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-      const dateStr = sixMonthsAgo.toISOString().slice(0, 10);
-      
+
       setStatus(`Fetching public trail for ${login}...`);
+      const prSearchUrl = page => `https://api.github.com/search/issues?q=author:${login}+type:pr&sort=created&order=desc&per_page=100&page=${page}`;
+      // Issues are secondary to PRs (only needed if the contributions modal is opened),
+      // so we cap them at one page instead of mirroring the PR pagination - that would
+      // double the initial page's network round trips for heavy users.
+      const issueSearchUrl = `https://api.github.com/search/issues?q=author:${login}+type:issue&sort=created&order=desc&per_page=100`;
+
       const eventsPromise = fetchGH(`https://api.github.com/users/${login}/events/public?per_page=100`).catch(() => []);
-      const totalDataPromise = fetchGH(`https://api.github.com/search/issues?q=author:${login}+type:pr`).catch(() => null);
-      const mergedDataPromise = fetchGH(`https://api.github.com/search/issues?q=author:${login}+type:pr+is:merged`).catch(() => null);
-      
-      const prPromises = [];
-      for (let page = 1; page <= 5; page++) {
-        prPromises.push(
-          fetchGH(`https://api.github.com/search/issues?q=author:${login}+type:pr+created:>=${dateStr}&sort=created&order=desc&per_page=100&page=${page}`).catch(() => ({ items: [] }))
+      // per_page=1 keeps the payload tiny; we only need total_count
+      const mergedDataPromise = fetchGH(`https://api.github.com/search/issues?q=author:${login}+type:pr+is:merged&per_page=1`).catch(() => null);
+      const firstPagePromise = fetchGH(prSearchUrl(1)).catch(() => null);
+      // Fetched in the same batch (not on click) so opening a repo's contributions
+      // modal never has to make its own network round trip.
+      const issuesPromise = fetchGH(issueSearchUrl).catch(() => null);
+
+      const [events, mergedData, firstPage, issuesPage] = await Promise.all([
+        eventsPromise, mergedDataPromise, firstPagePromise, issuesPromise
+      ]);
+
+      // Page 1 already carries the lifetime total, so no separate count query needed.
+      // Only fetch further pages when the user actually has more than 100 PRs.
+      let allPRs = firstPage?.items || [];
+      const totalPRs = firstPage ? firstPage.total_count : null;
+      if (totalPRs > 100) {
+        const maxPage = Math.min(5, Math.ceil(totalPRs / 100));
+        const rest = await Promise.all(
+          Array.from({ length: maxPage - 1 }, (_, i) => fetchGH(prSearchUrl(i + 2)).catch(() => ({ items: [] })))
         );
+        for (const res of rest) {
+          if (res && res.items) allPRs = allPRs.concat(res.items);
+        }
       }
-      const prResults = await Promise.all(prPromises);
-      let allPRs = [];
-      for (const res of prResults) {
-        if (res && res.items) allPRs = allPRs.concat(res.items);
-      }
-      
-      const [events, totalData, mergedData] = await Promise.all([eventsPromise, totalDataPromise, mergedDataPromise]);
+
       const prLifetime = {
-        total: totalData ? totalData.total_count : null,
+        total: totalPRs,
         merged: mergedData ? mergedData.total_count : null
       };
-      return { type: 'user', userData, analysis: buildUserAnalysis(events), prLifetime, userPRs: allPRs, queryParamSaved: login };
+      return { type: 'user', userData, analysis: buildUserAnalysis(events), prLifetime, userPRs: allPRs, userIssues: issuesPage?.items || [], queryParamSaved: login };
     }
   }
 }

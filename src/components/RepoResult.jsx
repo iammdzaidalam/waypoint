@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import { timeAgo, filterPRs, bucketPRsByTime } from '../lib/utils';
+import { timeAgo, filterPRs } from '../lib/utils';
 import { ExportService } from '../lib/services';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function RepoResult({ data, onTrace }) {
-  const { repoData, allPRs } = data;
+  const { repoData, allPRs, allIssues } = data;
   const [timeSel, setTimeSel] = useState('90');
   const [branchSel, setBranchSel] = useState('all');
   const [showAllContribs, setShowAllContribs] = useState(false);
   const [sortConfig, setSortConfig] = useState({ key: 'count', direction: 'desc' });
-  
+  const [recentTab, setRecentTab] = useState('prs');
+
   const branches = Array.from(new Set(allPRs.map(p => p.base?.ref).filter(Boolean)));
-  
+
   const filtered = filterPRs(allPRs, timeSel, branchSel);
+  const filteredIssues = filterPRs(allIssues || [], timeSel, 'all');
   const merged = filtered.filter(p => p.merged_at);
   const closedNotMerged = filtered.filter(p => p.state === 'closed' && !p.merged_at);
   const open = filtered.filter(p => p.state === 'open');
@@ -81,10 +82,6 @@ export default function RepoResult({ data, onTrace }) {
     ExportService.exportToCSV(headers, rows, `${repoData.name}-prs`);
   };
 
-  const { buckets } = bucketPRsByTime(filtered);
-  const maxBucket = buckets.length ? Math.max(...buckets.map(b => b.count)) : 1;
-  const showLabelEvery = Math.max(1, Math.ceil(buckets.length / 10));
-
   return (
     <div className="fade-in">
       <div className="subject-card">
@@ -123,8 +120,8 @@ export default function RepoResult({ data, onTrace }) {
           <div className="stat-box"><div className="val">{filtered.length}</div><div className="lbl">PRs in view</div></div>
           <div className="stat-box"><div className="val">{merged.length}</div><div className="lbl">merged</div></div>
           <div className="stat-box"><div className="val">{open.length}</div><div className="lbl">open</div></div>
-          <div className="stat-box"><div className="val">{mergeRate !== null ? `${mergeRate}%` : '—'}</div><div className="lbl">merge rate (decided)</div></div>
-          <div className="stat-box"><div className="val">{avgMergeDays !== null ? avgMergeDays : '—'}</div><div className="lbl">avg days to merge</div></div>
+          <div className="stat-box"><div className="val">{mergeRate !== null ? `${mergeRate}%` : 'n/a'}</div><div className="lbl">merge rate (decided)</div></div>
+          <div className="stat-box"><div className="val">{avgMergeDays !== null ? avgMergeDays : 'n/a'}</div><div className="lbl">avg days to merge</div></div>
         </div>
       </section>
 
@@ -186,21 +183,59 @@ export default function RepoResult({ data, onTrace }) {
       </section>
 
       <section className="block">
-        <h2>Recent pull requests</h2>
-        <ul className="timeline">
-          {filtered.slice(0, 15).map(p => {
-            const state = p.merged_at ? 'merged' : (p.state === 'open' ? 'open' : 'closed');
-            return (
-              <li key={p.id}>
-                <div className="tl-top">
-                  <span><span className={`state-badge ${state}`}>{state}</span> {p.user?.login || 'unknown'} · into {p.base?.ref || '?'}</span>
-                  <span>{timeAgo(p.created_at)}</span>
-                </div>
-                <div className="tl-title"><a href={p.html_url} target="_blank" rel="noopener noreferrer">{p.title}</a></div>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="flex justify-between items-baseline mb-4 flex-wrap gap-2">
+          <h2 className="m-0">Recent Traces</h2>
+          <div className="inline-flex border border-line rounded-waypoint overflow-hidden shrink-0">
+            <button
+              type="button"
+              onClick={() => setRecentTab('prs')}
+              className={`px-3.5 py-1.5 text-xs transition-colors ${recentTab === 'prs' ? 'bg-btn-bg text-btn-text' : 'bg-transparent text-text-dim hover:text-text'}`}
+            >
+              Pull Requests
+            </button>
+            <button
+              type="button"
+              onClick={() => setRecentTab('issues')}
+              className={`px-3.5 py-1.5 text-xs border-l border-line transition-colors ${recentTab === 'issues' ? 'bg-btn-bg text-btn-text' : 'bg-transparent text-text-dim hover:text-text'}`}
+            >
+              Issues
+            </button>
+          </div>
+        </div>
+        {recentTab === 'prs' && (
+          <ul className="timeline">
+            {filtered.slice(0, 15).map(p => {
+              const state = p.merged_at ? 'merged' : (p.state === 'open' ? 'open' : 'closed');
+              return (
+                <li key={p.id}>
+                  <div className="tl-top">
+                    <span><span className={`state-badge ${state}`}>{state}</span> {p.user?.login || 'unknown'} · into {p.base?.ref || '?'}</span>
+                    <span>{timeAgo(p.created_at)}</span>
+                  </div>
+                  <div className="tl-title"><a href={p.html_url} target="_blank" rel="noopener noreferrer">{p.title}</a></div>
+                </li>
+              );
+            })}
+            {filtered.length === 0 && <div className="note" style={{ marginTop: '10px' }}>No pull requests found in this time range.</div>}
+          </ul>
+        )}
+        {recentTab === 'issues' && (
+          <ul className="timeline">
+            {filteredIssues.slice(0, 15).map(i => {
+              const state = i.state === 'open' ? 'open' : 'closed';
+              return (
+                <li key={i.id}>
+                  <div className="tl-top">
+                    <span><span className={`state-badge ${state}`}>{state}</span> {i.user?.login || 'unknown'}</span>
+                    <span>{timeAgo(i.created_at)}</span>
+                  </div>
+                  <div className="tl-title"><a href={i.html_url} target="_blank" rel="noopener noreferrer">{i.title}</a></div>
+                </li>
+              );
+            })}
+            {filteredIssues.length === 0 && <div className="note" style={{ marginTop: '10px' }}>No issues found in this time range.</div>}
+          </ul>
+        )}
       </section>
     </div>
   );

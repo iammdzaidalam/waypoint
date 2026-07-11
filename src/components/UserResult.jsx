@@ -1,21 +1,43 @@
-import { EVENT_LABELS, timeAgo } from '../lib/utils';
+import { useState } from 'react';
+import { EVENT_LABELS, timeAgo, filterPRs } from '../lib/utils';
+import ContributionsModal from './ContributionsModal';
+
+const RANGE_LABELS = {
+  '14': 'last 2 weeks',
+  '30': 'last month',
+  '90': 'last 3 months',
+  '180': 'last 6 months',
+  'all': 'all time'
+};
 
 export default function UserResult({ data, onTrace }) {
-  const { userData, analysis, prLifetime, userPRs } = data;
+  const { userData, analysis, prLifetime, userPRs, userIssues } = data;
   let { topRepos, topTypes, timeline, totalEvents } = analysis;
+  const [rangeSel, setRangeSel] = useState('180');
+  const [modalRepo, setModalRepo] = useState(null);
   const maxTypeCount = topTypes.length ? topTypes[0][1] : 1;
   const mergeRate = prLifetime?.total > 0 ? Math.round((prLifetime.merged / prLifetime.total) * 100) : null;
 
+  const rangedPRs = filterPRs(userPRs || [], rangeSel, 'all');
+
   const repoPRs = {};
-  if (userPRs) {
-    userPRs.forEach(pr => {
-      const repoName = pr.repository_url.split('/').slice(-2).join('/');
-      if (!repoPRs[repoName]) repoPRs[repoName] = { prCount: 0, mergedCount: 0 };
-      repoPRs[repoName].prCount++;
-      if (pr.pull_request?.merged_at) repoPRs[repoName].mergedCount++;
-    });
-  }
+  rangedPRs.forEach(pr => {
+    const repoName = pr.repository_url.split('/').slice(-2).join('/');
+    if (!repoPRs[repoName]) repoPRs[repoName] = { prCount: 0, mergedCount: 0, prs: [] };
+    repoPRs[repoName].prCount++;
+    if (pr.pull_request?.merged_at) repoPRs[repoName].mergedCount++;
+    repoPRs[repoName].prs.push(pr);
+  });
   const topPRRepos = Object.entries(repoPRs).sort((a, b) => b[1].prCount - a[1].prCount);
+
+  // Issues are already fetched up front alongside PRs, so the modal never has to
+  // make its own network call; just group them by repo the same way as PRs.
+  const repoIssues = {};
+  (userIssues || []).forEach(issue => {
+    const repoName = issue.repository_url.split('/').slice(-2).join('/');
+    if (!repoIssues[repoName]) repoIssues[repoName] = [];
+    repoIssues[repoName].push(issue);
+  });
 
   // Augment timeline with our robust PR data (fixes missing events for highly active bots)
   if (userPRs && userPRs.length > 0) {
@@ -34,7 +56,7 @@ export default function UserResult({ data, onTrace }) {
     const combined = [...timeline, ...prItems].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     const unique = [];
     const seen = new Set();
-    
+
     for (const item of combined) {
       if (item.url) {
         if (!seen.has(item.url)) { seen.add(item.url); unique.push(item); }
@@ -62,7 +84,7 @@ export default function UserResult({ data, onTrace }) {
           <div className="stat-strip" style={{marginBottom: totalEvents === 0 ? '24px' : 0}}>
             <div className="stat-box"><div className="val">{prLifetime.total}</div><div className="lbl">PRs opened, lifetime</div></div>
             <div className="stat-box"><div className="val">{prLifetime.merged}</div><div className="lbl">merged</div></div>
-            <div className="stat-box"><div className="val">{mergeRate !== null ? `${mergeRate}%` : '—'}</div><div className="lbl">merge rate</div></div>
+            <div className="stat-box"><div className="val">{mergeRate !== null ? `${mergeRate}%` : 'n/a'}</div><div className="lbl">merge rate</div></div>
           </div>
         )}
 
@@ -75,24 +97,46 @@ export default function UserResult({ data, onTrace }) {
         <>
 
           <section className="block">
-            <h2>Repository Contributions (last 6 months)</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
+              <h2 style={{ marginBottom: 0, flex: 1, minWidth: '200px' }}>Repository Contributions ({RANGE_LABELS[rangeSel]})</h2>
+              <select value={rangeSel} onChange={e => setRangeSel(e.target.value)} style={{ padding: '6px 10px', fontSize: '12px' }}>
+                <option value="14">Last 2 weeks</option>
+                <option value="30">Last month</option>
+                <option value="90">Last 3 months</option>
+                <option value="180">Last 6 months</option>
+                <option value="all">All time</option>
+              </select>
+            </div>
+            {rangeSel === 'all' && (userPRs?.length || 0) >= 500 && (
+              <div className="note">Based on the {userPRs.length} most recent PRs the GitHub API returns. Older activity beyond that isn't included.</div>
+            )}
             <div className="trail">
               {topPRRepos.map(([repo, stats], i) => {
                 const mergeRatePct = Math.round((stats.mergedCount / stats.prCount) * 100);
+                const openModal = () => setModalRepo(repo);
                 return (
-                  <div key={repo} className={`trail-node ${i === 0 ? 'top' : ''}`}>
+                  <div
+                    key={repo}
+                    className={`trail-node clickable ${i === 0 ? 'top' : ''}`}
+                    onClick={openModal}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); } }}
+                    role="button"
+                    tabIndex={0}
+                    title={`View PRs to ${repo}`}
+                  >
                     <div className="row1">
-                      <a className="repo" href={`https://github.com/${repo}`} target="_blank" rel="noopener noreferrer">{repo}</a>
+                      <a className="repo" href={`https://github.com/${repo}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>{repo}</a>
                       <span className="count">{stats.prCount} PRs</span>
                     </div>
                     <div className="meta">
                       <span className="badge">{mergeRatePct}% merged</span>
-                      <button className="link-btn trace-repo-btn" onClick={() => onTrace(repo)}>view repo analytics →</button>
+                      <button className="link-btn" onClick={e => { e.stopPropagation(); openModal(); }}>view PRs →</button>
+                      <button className="link-btn trace-repo-btn" onClick={e => { e.stopPropagation(); onTrace(repo); }}>view repo analytics →</button>
                     </div>
                   </div>
                 );
               })}
-              {topPRRepos.length === 0 && <div className="note" style={{marginTop: '10px'}}>No Pull Requests found in the last 6 months.</div>}
+              {topPRRepos.length === 0 && <div className="note" style={{marginTop: '10px'}}>No Pull Requests found in this time range.</div>}
             </div>
           </section>
 
@@ -130,6 +174,17 @@ export default function UserResult({ data, onTrace }) {
             </ul>
           </section>
         </>
+      )}
+
+      {modalRepo && repoPRs[modalRepo] && (
+        <ContributionsModal
+          repo={modalRepo}
+          login={userData.login}
+          prs={repoPRs[modalRepo].prs}
+          issues={repoIssues[modalRepo] || []}
+          rangeSel={rangeSel}
+          onClose={() => setModalRepo(null)}
+        />
       )}
     </div>
   );
