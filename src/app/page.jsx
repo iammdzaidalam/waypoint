@@ -2,6 +2,7 @@ import { permanentRedirect } from 'next/navigation';
 import SearchBar from '../components/SearchBar';
 import TokenBox from '../components/TokenBox';
 import RecentSearches from '../components/RecentSearches';
+import AsciiDissolve from '../components/AsciiDissolve';
 import { buildTracePath } from '../lib/utils';
 
 export default async function Home({ searchParams }) {
@@ -23,6 +24,7 @@ export default async function Home({ searchParams }) {
 
       <TokenBox />
 
+
       <div className="features-grid fade-in" style={{ marginTop: '40px' }}>
         <div className="feature-box">
           <div className="icon">📊</div>
@@ -41,7 +43,9 @@ export default async function Home({ searchParams }) {
         </div>
       </div>
 
-      <RecentSearches />
+      <AsciiDissolve delay={160}>
+        <RecentSearches />
+      </AsciiDissolve>
     </div>
   );
 }

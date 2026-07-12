@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AsciiDissolve from '../components/AsciiDissolve';
 
 export const metadata = {
   title: 'Not found',
@@ -8,16 +9,18 @@ export const metadata = {
 export default function NotFound() {
   return (
     <div className="wrap">
-      <div className="hero-section">
-        <div className="eyebrow">404</div>
-        <h1 className="title">Not found</h1>
-        <p className="tagline">
-          Couldn&apos;t find that as a GitHub user, org, or repo. Double-check the spelling, or head back and try another search.
-        </p>
-      </div>
-      <Link href="/" className="traceBtn" style={{ display: 'inline-block', textDecoration: 'none' }}>
-        Back to Waypoint
-      </Link>
+      <AsciiDissolve>
+        <div className="hero-section">
+          <div className="eyebrow">404</div>
+          <h1 className="title">Not found</h1>
+          <p className="tagline">
+            Couldn&apos;t find that as a GitHub user, org, or repo. Double-check the spelling, or head back and try another search.
+          </p>
+        </div>
+        <Link href="/" className="traceBtn" style={{ display: 'inline-block', textDecoration: 'none' }}>
+          Back to Waypoint
+        </Link>
+      </AsciiDissolve>
     </div>
   );
 }

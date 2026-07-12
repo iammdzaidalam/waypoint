@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { ghFetchLight } from '../../lib/analyzeServer';
 import SearchBar from '../../components/SearchBar';
 import LiveResult from '../../components/LiveResult';
+import AsciiDissolve from '../../components/AsciiDissolve';
 
 export const revalidate = 300;
 
@@ -46,8 +47,10 @@ export default async function UserOrOrgPage({ params }) {
 
   return (
     <div className="wrap">
-      <SearchBar initialQuery={owner} />
-      <LiveResult query={owner} initial={data} />
+      <AsciiDissolve>
+        <SearchBar initialQuery={owner} />
+        <LiveResult query={owner} initial={data} />
+      </AsciiDissolve>
     </div>
   );
 }

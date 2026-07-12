@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import UserResult from './UserResult';
 import OrgResult from './OrgResult';
 import RepoResult from './RepoResult';
+import AsciiDissolve from './AsciiDissolve';
 import { HistoryService } from '../lib/services';
 import { buildTracePath } from '../lib/utils';
 
@@ -20,9 +21,11 @@ export default function ResultsClient({ data }) {
 
   return (
     <div className="results">
-      {data.type === 'user' && <UserResult data={data} onTrace={onTrace} />}
-      {data.type === 'org' && <OrgResult data={data} onTrace={onTrace} />}
-      {data.type === 'repo' && <RepoResult data={data} onTrace={onTrace} />}
+      <AsciiDissolve trigger={data}>
+        {data.type === 'user' && <UserResult data={data} onTrace={onTrace} />}
+        {data.type === 'org' && <OrgResult data={data} onTrace={onTrace} />}
+        {data.type === 'repo' && <RepoResult data={data} onTrace={onTrace} />}
+      </AsciiDissolve>
     </div>
   );
 }

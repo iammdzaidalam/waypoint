@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { ghFetchLight } from '../../../lib/analyzeServer';
 import SearchBar from '../../../components/SearchBar';
 import LiveResult from '../../../components/LiveResult';
+import AsciiDissolve from '../../../components/AsciiDissolve';
 
 export const revalidate = 300;
 
@@ -38,8 +39,10 @@ export default async function RepoPage({ params }) {
 
   return (
     <div className="wrap">
-      <SearchBar initialQuery={fullName} />
-      <LiveResult query={fullName} forceType="repo" initial={data} />
+      <AsciiDissolve>
+        <SearchBar initialQuery={fullName} />
+        <LiveResult query={fullName} forceType="repo" initial={data} />
+      </AsciiDissolve>
     </div>
   );
 }

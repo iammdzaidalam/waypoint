@@ -2,7 +2,21 @@ import './globals.css';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { JetBrains_Mono, Space_Grotesk } from 'next/font/google';
+import localFont from 'next/font/local';
 import AppChrome from '../components/AppChrome';
+import AsciiField from '../components/AsciiField';
+
+// Geist Pixel by Vercel, vendored from the `geist` npm package (SIL OFL).
+// The Circle variant reads as LED dot lettering.
+const geistPixel = localFont({
+  src: './fonts/GeistPixel-Circle.woff2',
+  weight: '500',
+  style: 'normal',
+  variable: '--font-geist-pixel',
+  display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+});
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -73,8 +87,8 @@ export const metadata = {
 
 export const viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#faf9f5' },
-    { media: '(prefers-color-scheme: dark)', color: '#141311' },
+    { media: '(prefers-color-scheme: light)', color: '#efede7' },
+    { media: '(prefers-color-scheme: dark)', color: '#09090c' },
   ],
 };
 
@@ -91,7 +105,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${jetbrainsMono.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${jetbrainsMono.variable} ${spaceGrotesk.variable} ${geistPixel.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -109,6 +123,7 @@ export default function RootLayout({ children }) {
             })();
           `}
         </Script>
+        <AsciiField />
         <AppChrome />
         {children}
         <Analytics />

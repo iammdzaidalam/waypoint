@@ -5,8 +5,8 @@ export default function manifest() {
     description: 'Trace a GitHub user, org, or repo to see real contribution activity.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#faf9f5',
-    theme_color: '#faf9f5',
+    background_color: '#efede7',
+    theme_color: '#efede7',
     icons: [
       {
         src: '/favicon.ico',
