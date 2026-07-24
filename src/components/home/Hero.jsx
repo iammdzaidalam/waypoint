@@ -10,7 +10,7 @@ export default function Hero() {
     <section className="hero-band" id="top">
       <HeroGrid />
       <div className="container-narrow">
-        <span className="hero-badge">// github activity tracer</span>
+        <span className="hero-badge">github activity tracer</span>
         <h1>See where developers <span className="hl">actually</span> spend their time.</h1>
         <p className="hero-sub">
           Trace any GitHub user, org, or repo and map real contribution activity: pull requests,

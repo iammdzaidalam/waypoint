@@ -356,6 +356,25 @@ kbd,
   padding-inline: 24px;
 }
 
+/* Body content is inset like the head. The bordered blocks are pulled back
+   out to the column edge so their rules meet the gutter — everything else
+   (bar charts, notes) would otherwise sit flush against the column rule
+   with no breathing room. */
+.sec-body {
+  padding-inline: 24px;
+}
+
+.sec-body > .row-list,
+.sec-body > .cell-grid {
+  margin-inline: -24px;
+}
+
+/* the trailing row's margin would otherwise add to the frame's own
+   bottom padding and make this section deeper than its neighbours */
+.sec-body > .bar-row:last-child {
+  margin-bottom: 0;
+}
+
 /* In a gutter section the column already draws side rules, so the body
    block borrows them rather than adding its own — otherwise the two sit
    on the same pixel and read as a 2px line. Elsewhere the block keeps

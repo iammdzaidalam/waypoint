@@ -17,8 +17,8 @@ export default function Image() {
           padding: '90px',
         }}
       >
-        <div style={{ display: 'flex', fontSize: 30, color: '#57534e', fontWeight: 500 }}>
-          <span style={{ color: '#155dfc', marginRight: 14 }}>//</span> github activity tracer
+        <div style={{ display: 'flex', fontSize: 30, color: '#155dfc', fontWeight: 500 }}>
+          github activity tracer
         </div>
         <div style={{ display: 'flex', fontSize: 104, fontWeight: 600, color: '#2a2524', marginTop: 26, letterSpacing: -2 }}>
           waypoint
