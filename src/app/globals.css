@@ -1489,22 +1489,36 @@ ul.timeline li:nth-child(n + 6) {
   overflow: hidden;
 }
 
-/* Blueprint texture: the plan drawing rebuilt as vector geometry — 44
-   line segments on the drawing's own 124.5px grid plus its 57 square
-   markers, traced from the source and snapped to that grid. Vector so it
-   stays crisp at any hero height, and 3.6KB rather than 80KB.
-   White strokes on transparency, so the field underneath stays
-   --hero-band and white copy keeps its 5:1 contrast. */
-.hero-band::before {
-  content: '';
+/* Blueprint texture: the plan drawing as real elements — 35 rules and 57
+   markers positioned from src/content/hero-grid.js. Same technique as the
+   frame rules, so the whole drawing is hairlines rather than an asset,
+   and it inherits the theme instead of being baked into a file. */
+.hero-grid {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  overflow: hidden;
   opacity: 0.55;
-  background-image: url('/brand/hero-grid.svg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  color: #fff;
+}
+
+.hero-grid i {
+  position: absolute;
+  background: currentColor;
+}
+
+.hg-v {
+  width: 1px;
+}
+
+.hg-h {
+  height: 1px;
+}
+
+/* fixed size so the squares stay square while the rules stretch */
+.hg-m {
+  width: 9px;
+  height: 9px;
 }
 
 /* The page's two frame rules carried through the orange bands, on exactly

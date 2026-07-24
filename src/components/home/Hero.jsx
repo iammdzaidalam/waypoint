@@ -3,10 +3,12 @@ import TokenBox from '../TokenBox';
 import RecentSearches from '../RecentSearches';
 import Reveal from '../Reveal';
 import TerminalWindow from '../TerminalWindow';
+import HeroGrid from './HeroGrid';
 
 export default function Hero() {
   return (
     <section className="hero-band" id="top">
+      <HeroGrid />
       <div className="container-narrow">
         <span className="hero-badge">// github activity tracer</span>
         <h1>See where developers <span className="hl">actually</span> spend their time.</h1>
