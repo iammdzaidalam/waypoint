@@ -45,7 +45,7 @@
   --hero-band-2: #ad3e1b;
   --hero-ink: #ffffff;
   /* 0.88 not 0.72: dimmed white needs weight to stay readable on orange */
-  --hero-ink-dim: rgba(255, 255, 255, 0.88);
+  --hero-ink-dim: rgba(255, 255, 255, 1);
 
   /* data viz */
   --seg-off: #e5e5e5;
@@ -64,8 +64,10 @@
   --grain-opacity: 0;
 
   /* frame geometry */
-  --frame-w: 1240px;   /* outer bordered column */
-  --col-w: 1144px;     /* inner content column */
+  --frame-w: 1240px;
+  /* outer bordered column */
+  --col-w: 1144px;
+  /* inner content column */
 
   /* legacy aliases consumed by components + tailwind theme */
   --paper: var(--bg);
@@ -209,10 +211,25 @@ h4 {
   color: var(--text);
 }
 
-h1 { font-size: 60px; line-height: 1.2; }
-h2 { font-size: 48px; line-height: 1.1; }
-h3 { font-size: 20px; line-height: 1.4; }
-h4 { font-size: 17px; line-height: 1.4; }
+h1 {
+  font-size: 60px;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+h4 {
+  font-size: 17px;
+  line-height: 1.4;
+}
 
 a {
   color: inherit;
@@ -320,7 +337,7 @@ kbd,
 
 /* section whose inner column is narrower than the frame, the leftover
    gutter filled with the same hatch on both sides */
-.gutter-hatch > .col {
+.gutter-hatch>.col {
   border-inline: 1px solid var(--line);
   background: var(--bg);
 }
@@ -340,8 +357,8 @@ kbd,
    block borrows them rather than adding its own — otherwise the two sit
    on the same pixel and read as a 2px line. Elsewhere the block keeps
    its own border, since there is no column rule to borrow. */
-.gutter-hatch > .result-col > .sec-body > .row-list,
-.gutter-hatch > .result-col > .sec-body > .cell-grid {
+.gutter-hatch>.result-col>.sec-body>.row-list,
+.gutter-hatch>.result-col>.sec-body>.cell-grid {
   border-inline: 0;
 }
 
@@ -354,7 +371,7 @@ kbd,
   border-top: 1px solid var(--line);
 }
 
-.cell-grid > * {
+.cell-grid>* {
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   padding: 28px 24px;
@@ -364,16 +381,27 @@ kbd,
   transition: background 0.16s ease;
 }
 
-.cell-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
-.cell-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
-.cell-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
-.cell-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+.cell-grid.cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cell-grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.cell-grid.cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.cell-grid.cols-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
 
 /* drop the right rule on the last cell of each row */
-.cell-grid.cols-2 > *:nth-child(2n),
-.cell-grid.cols-3 > *:nth-child(3n),
-.cell-grid.cols-4 > *:nth-child(4n),
-.cell-grid.cols-5 > *:nth-child(5n) {
+.cell-grid.cols-2>*:nth-child(2n),
+.cell-grid.cols-3>*:nth-child(3n),
+.cell-grid.cols-4>*:nth-child(4n),
+.cell-grid.cols-5>*:nth-child(5n) {
   border-right: 0;
 }
 
@@ -733,9 +761,17 @@ button.tokenToggle:hover {
   flex-shrink: 0;
 }
 
-.demo-dot.close { background: #ff5f57; }
-.demo-dot.min { background: #febc2e; }
-.demo-dot.max { background: #28c840; }
+.demo-dot.close {
+  background: #ff5f57;
+}
+
+.demo-dot.min {
+  background: #febc2e;
+}
+
+.demo-dot.max {
+  background: #28c840;
+}
 
 .demo-title {
   position: absolute;
@@ -765,21 +801,35 @@ button.tokenToggle:hover {
 }
 
 /* terminal-native ANSI-ish palette, independent of the site accent */
-.demo-body .t-dim { color: #8b8b8b; }
-.demo-body .t-green { color: #4ec9a0; }
-.demo-body .t-yellow { color: #d7ba7d; }
-.demo-body .t-red { color: #f07178; }
-.demo-body .t-white { color: #f0f0f0; }
+.demo-body .t-dim {
+  color: #8b8b8b;
+}
+
+.demo-body .t-green {
+  color: #4ec9a0;
+}
+
+.demo-body .t-yellow {
+  color: #d7ba7d;
+}
+
+.demo-body .t-red {
+  color: #f07178;
+}
+
+.demo-body .t-white {
+  color: #f0f0f0;
+}
 
 .card,
-.error-box{
+.error-box {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.card:hover{
+.card:hover {
   border-color: var(--line-strong);
 }
 
@@ -817,12 +867,12 @@ button.tokenToggle:hover {
   border: 1px solid var(--line);
 }
 
-.row-list > li {
+.row-list>li {
   padding: 18px 24px;
   border-bottom: 1px solid var(--line);
 }
 
-.row-list > li:last-child {
+.row-list>li:last-child {
   border-bottom: 0;
 }
 
@@ -1291,7 +1341,7 @@ ul.timeline .tl-title a:hover {
   position: relative;
 }
 
-.ascii-dissolve > canvas {
+.ascii-dissolve>canvas {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -1328,11 +1378,25 @@ ul.timeline li {
   animation: rise 0.34s ease backwards;
 }
 
-ul.timeline li:nth-child(2) { animation-delay: 40ms; }
-ul.timeline li:nth-child(3) { animation-delay: 80ms; }
-ul.timeline li:nth-child(4) { animation-delay: 120ms; }
-ul.timeline li:nth-child(5) { animation-delay: 160ms; }
-ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
+ul.timeline li:nth-child(2) {
+  animation-delay: 40ms;
+}
+
+ul.timeline li:nth-child(3) {
+  animation-delay: 80ms;
+}
+
+ul.timeline li:nth-child(4) {
+  animation-delay: 120ms;
+}
+
+ul.timeline li:nth-child(5) {
+  animation-delay: 160ms;
+}
+
+ul.timeline li:nth-child(n + 6) {
+  animation-delay: 200ms;
+}
 
 @media (max-width: 768px) {
   .wrap {
@@ -1343,9 +1407,9 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
     padding-block: 60px;
   }
 
-  
 
-  
+
+
 
   .bar-row {
     flex-wrap: wrap;
@@ -1356,16 +1420,16 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
     width: 100%;
   }
 
-  
+
 
   .subject-card .rstats-inline {
     margin-left: 0;
     text-align: left;
   }
 
-  
 
-  
+
+
 }
 
 @media (max-width: 560px) {
@@ -1390,7 +1454,7 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
     scroll-behavior: auto !important;
   }
 
-  .ascii-dissolve > canvas {
+  .ascii-dissolve>canvas {
     display: none !important;
   }
 
@@ -1424,18 +1488,19 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
   overflow: hidden;
 }
 
-/* Blueprint texture. The artwork is the supplied plan drawing with its
-   orange field keyed out, leaving white line work on transparency — so it
-   sits over --hero-band and keeps white text at 5:1. Compositing the
-   original JPG directly would drag the field to its own #fd894c, where
-   white copy drops to 2.4:1 and stops being readable. */
+/* Blueprint texture: the plan drawing rebuilt as vector geometry — 44
+   line segments on the drawing's own 124.5px grid plus its 57 square
+   markers, traced from the source and snapped to that grid. Vector so it
+   stays crisp at any hero height, and 3.6KB rather than 80KB.
+   White strokes on transparency, so the field underneath stays
+   --hero-band and white copy keeps its 5:1 contrast. */
 .hero-band::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   opacity: 0.55;
-  background-image: url('/brand/hero-grid.png');
+  background-image: url('/brand/hero-grid.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1598,7 +1663,7 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
   z-index: 1;
 }
 
-.sec > .frame {
+.sec>.frame {
   padding-block: 80px;
 }
 
@@ -1606,12 +1671,12 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
   background: var(--bg-2);
 }
 
-.sec.pad-top-lg > .frame {
+.sec.pad-top-lg>.frame {
   padding-top: 130px;
 }
 
 /* band that supplies its own padding (the chip strip) */
-.sec.flush > .frame {
+.sec.flush>.frame {
   padding-block: 0;
 }
 
@@ -1712,7 +1777,7 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
   margin-bottom: 16px;
 }
 
-.split-text > p {
+.split-text>p {
   color: var(--text-dim);
   font-size: 16px;
   line-height: 1.5;
@@ -1744,10 +1809,21 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
   flex-shrink: 0;
 }
 
-.check-dot.green { background: #16a34a; }
-.check-dot.red { background: #dc2626; }
-.check-dot.gray { background: var(--text-faint); }
-.check-dot.accent { background: var(--accent); }
+.check-dot.green {
+  background: #16a34a;
+}
+
+.check-dot.red {
+  background: #dc2626;
+}
+
+.check-dot.gray {
+  background: var(--text-faint);
+}
+
+.check-dot.accent {
+  background: var(--accent);
+}
 
 /* ---- chip strip (bordered band, label + targets) ---- */
 .chip-strip {
@@ -1865,7 +1941,9 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
   gap: 12px;
 }
 
-.faq-cell summary::-webkit-details-marker { display: none; }
+.faq-cell summary::-webkit-details-marker {
+  display: none;
+}
 
 .faq-cell summary::after {
   content: '+';
@@ -1962,19 +2040,43 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
 
 /* ---- homepage responsive ---- */
 @media (max-width: 1100px) {
-  .cell-grid.cols-5 { grid-template-columns: repeat(3, 1fr); }
-  .cell-grid.cols-5 > *:nth-child(5n) { border-right: 1px solid var(--line); }
-  .cell-grid.cols-5 > *:nth-child(3n) { border-right: 0; }
+  .cell-grid.cols-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cell-grid.cols-5>*:nth-child(5n) {
+    border-right: 1px solid var(--line);
+  }
+
+  .cell-grid.cols-5>*:nth-child(3n) {
+    border-right: 0;
+  }
 }
 
 @media (max-width: 900px) {
-  .cell-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
-  .cell-grid.cols-4 > *:nth-child(4n) { border-right: 1px solid var(--line); }
-  .cell-grid.cols-4 > *:nth-child(2n) { border-right: 0; }
+  .cell-grid.cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-  .cell-grid.cols-5 { grid-template-columns: repeat(2, 1fr); }
-  .cell-grid.cols-5 > *:nth-child(3n) { border-right: 1px solid var(--line); }
-  .cell-grid.cols-5 > *:nth-child(2n) { border-right: 0; }
+  .cell-grid.cols-4>*:nth-child(4n) {
+    border-right: 1px solid var(--line);
+  }
+
+  .cell-grid.cols-4>*:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .cell-grid.cols-5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cell-grid.cols-5>*:nth-child(3n) {
+    border-right: 1px solid var(--line);
+  }
+
+  .cell-grid.cols-5>*:nth-child(2n) {
+    border-right: 0;
+  }
 }
 
 @media (max-width: 820px) {
@@ -1988,8 +2090,8 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
     grid-template-columns: 1fr;
   }
 
-  .cell-grid.cols-3 > *,
-  .cell-grid.cols-2 > * {
+  .cell-grid.cols-3>*,
+  .cell-grid.cols-2>* {
     border-right: 0;
   }
 
@@ -2012,7 +2114,7 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
     grid-template-columns: 1fr;
   }
 
-  .cell-grid.cols-4 > * {
+  .cell-grid.cols-4>* {
     border-right: 0;
   }
 }
