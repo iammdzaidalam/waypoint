@@ -325,6 +325,26 @@ kbd,
   background: var(--bg);
 }
 
+/* Result sections: the column carries no side padding of its own, so a
+   body block's border sits flush on the column rule and meets the hatched
+   gutter. The head supplies its own inset instead. */
+.result-col {
+  padding-inline: 0;
+}
+
+.sec-inset {
+  padding-inline: 24px;
+}
+
+/* In a gutter section the column already draws side rules, so the body
+   block borrows them rather than adding its own — otherwise the two sit
+   on the same pixel and read as a 2px line. Elsewhere the block keeps
+   its own border, since there is no column rule to borrow. */
+.gutter-hatch > .result-col > .sec-body > .row-list,
+.gutter-hatch > .result-col > .sec-body > .cell-grid {
+  border-inline: 0;
+}
+
 /* card system — grid cells split by hairlines, no gap/radius/shadow.
    The outer border comes from the .frame; cells draw right + bottom rules
    and the edge cells reset theirs so nothing doubles up. */

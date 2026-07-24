@@ -41,16 +41,21 @@ export function ResultSection({ label, title, note, control, children, gutter })
           the last class to `${` and Tailwind's scanner never emits it. */}
       <section>
         <div className={gutter ? 'frame py-14 gutter-hatch' : 'frame py-14'}>
-          <div className="col">
-            <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <div className="sec-eyebrow"><span className="lbl">{label}</span></div>
-                <h2 className="text-[32px] leading-tight">{title}</h2>
+          <div className="col result-col">
+            {/* head is inset; the body runs flush to the column edge so
+                its border lands on the column rule and meets the hatched
+                gutter, instead of floating 24px inside it */}
+            <div className="sec-inset">
+              <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <div className="sec-eyebrow"><span className="lbl">{label}</span></div>
+                  <h2 className="text-[32px] leading-tight">{title}</h2>
+                </div>
+                {control}
               </div>
-              {control}
+              {note && <p className="mb-6 max-w-[70ch] text-[13px] leading-relaxed text-text-faint">{note}</p>}
             </div>
-            {note && <p className="mb-6 max-w-[70ch] text-[13px] leading-relaxed text-text-faint">{note}</p>}
-            {children}
+            <div className="sec-body">{children}</div>
           </div>
         </div>
       </section>
