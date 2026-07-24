@@ -104,8 +104,10 @@
   --accent-soft: rgba(255, 138, 92, 0.16);
   --accent-rgb: 255, 138, 92;
 
-  --hero-band: #cc4a20;
-  --hero-band-2: #b8431f;
+  /* the band keeps the brand orange in both themes — it is a brand
+     surface, not a themed one */
+  --hero-band: #e0562a;
+  --hero-band-2: #cc4a20;
   --hero-ink: #ffffff;
   --hero-ink-dim: rgba(255, 255, 255, 0.88);
 
@@ -1503,6 +1505,21 @@ ul.timeline li:nth-child(n + 6) {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* The page's two frame rules carried through the orange bands, on exactly
+   the same 1240px column every section uses. Without these the bands are
+   detached and the rules only exist between them; with them the line runs
+   unbroken from the nav all the way to the footer. */
+.hero-band::after,
+.cta-band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin-inline: auto;
+  max-width: var(--frame-w);
+  border-inline: 1px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
 }
 
 .hero-badge {
