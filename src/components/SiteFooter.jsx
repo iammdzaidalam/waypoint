@@ -15,26 +15,15 @@ export default function SiteFooter() {
           </p>
         </div>
 
-        <div className="footer-cols">
-          <div className="footer-col">
-            <h4>Explore</h4>
-            <a href="/torvalds">Trace a user</a>
-            <a href="/vercel/next.js">Trace a repo</a>
-            <a href="/#features">Features</a>
-            <a href="/#faq">FAQ</a>
-          </div>
-          <div className="footer-col">
-            <h4>Project</h4>
-            <a href={REPO} target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href={REPO} target="_blank" rel="noopener noreferrer">Self-host</a>
-            <a href={`${REPO}/issues`} target="_blank" rel="noopener noreferrer">Report an issue</a>
-          </div>
-          <div className="footer-col">
-            <h4>About</h4>
-            <a href="https://github.com/iammdzaidalam" target="_blank" rel="noopener noreferrer">Author</a>
-            <a href={`${REPO}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer">MIT License</a>
-          </div>
-        </div>
+        {/* Only destinations that go somewhere distinct. The example
+            traces are already offered in the hero, "Self-host" pointed at
+            the same URL as the repo link, and author and licence are both
+            one click inside the repo. */}
+        <nav className="footer-links">
+          <a href="/#faq">FAQ</a>
+          <a href={REPO} target="_blank" rel="noopener noreferrer">Source</a>
+          <a href={`${REPO}/issues`} target="_blank" rel="noopener noreferrer">Report an issue</a>
+        </nav>
       </div>
 
       <div className="footer-legal">

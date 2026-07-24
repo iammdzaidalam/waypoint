@@ -1227,30 +1227,21 @@ ul.timeline .tl-title a:hover {
   margin-top: 14px;
 }
 
-.footer-cols {
+/* One row, no headings — three links do not need to be filed into
+   categories. */
+.footer-links {
   display: flex;
-  gap: 56px;
+  align-items: center;
+  gap: 32px;
   flex-wrap: wrap;
 }
 
-.footer-col h4 {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-faint);
-  margin-bottom: 14px;
-  font-weight: 500;
-}
-
-.footer-col a {
-  display: block;
-  font-size: 13.5px;
+.footer-links a {
+  font-size: 14px;
   color: var(--text-dim);
-  margin-bottom: 9px;
 }
 
-.footer-col a:hover {
+.footer-links a:hover {
   color: var(--accent);
 }
 
@@ -1433,19 +1424,23 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
   overflow: hidden;
 }
 
-/* blueprint texture: fine grid + corner cross-marks */
+/* Blueprint texture. The artwork is the supplied plan drawing with its
+   orange field keyed out, leaving white line work on transparency — so it
+   sits over --hero-band and keeps white text at 5:1. Compositing the
+   original JPG directly would drag the field to its own #fd894c, where
+   white copy drops to 2.4:1 and stops being readable. */
 .hero-band::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.5;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
-  background-size: 44px 44px;
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, #000 25%, transparent 80%);
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, #000 25%, transparent 80%);
+  opacity: 0.55;
+  background-image: url('/brand/hero-grid.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse 95% 75% at 50% 25%, #000 35%, transparent 85%);
+  mask-image: radial-gradient(ellipse 95% 75% at 50% 25%, #000 35%, transparent 85%);
 }
 
 .hero-badge {
