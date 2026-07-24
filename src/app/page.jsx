@@ -36,7 +36,7 @@ const problems = [
 ];
 
 const features = [
-  { icon: '◷', bg: 'rgba(21,93,252,0.12)', color: '#155dfc', t: 'Lifetime PR analytics', d: 'Every pull request a developer has opened, how many merged, and their true merge rate across their whole public history.', code: 'waypoint trace torvalds --prs' },
+  { icon: '◷', bg: 'var(--accent-soft)', color: 'var(--accent)', t: 'Lifetime PR analytics', d: 'Every pull request a developer has opened, how many merged, and their true merge rate across their whole public history.', code: 'waypoint trace torvalds --prs' },
   { icon: '⚡', bg: 'rgba(22,163,74,0.14)', color: '#16a34a', t: 'Merge rate & review speed', d: 'For any repo: merge rate on decided PRs, average days to merge, and how fast the community actually ships.', code: 'waypoint trace vercel/next.js' },
   { icon: '⌖', bg: 'rgba(220,38,38,0.12)', color: '#dc2626', t: 'Find the real maintainers', d: 'Search an org and Waypoint surfaces its most active repos and the people who genuinely keep them moving.', code: 'waypoint trace vercel --org' },
   { icon: '⇲', bg: 'rgba(147,51,234,0.14)', color: '#9333ea', t: 'Contribution trails', d: 'Follow a developer across repositories, issues, and PRs, ranked by where they put in real, sustained effort.', code: 'waypoint trace sindresorhus' },
@@ -74,7 +74,7 @@ export default async function Home({ searchParams }) {
 
   return (
     <>
-      {/* ---------------- blue hero ---------------- */}
+      {/* ---------------- hero ---------------- */}
       <section className="hero-band" id="top">
         <div className="container-narrow">
           <span className="hero-badge">// github activity tracer</span>
@@ -141,7 +141,7 @@ export default async function Home({ searchParams }) {
                 <p>Waypoint separates a developer’s pull requests by outcome, so the real merge rate is right there instead of buried in a list.</p>
                 <ul className="checklist">
                   <li><span className="check-dot green" /> Merged pull requests, counted and rated</li>
-                  <li><span className="check-dot blue" /> Open work in flight right now</li>
+                  <li><span className="check-dot accent" /> Open work in flight right now</li>
                   <li><span className="check-dot red" /> Closed without merge, so the rate is honest</li>
                 </ul>
               </Reveal>
@@ -198,10 +198,10 @@ export default async function Home({ searchParams }) {
                 <h2>What Waypoint actually does.</h2>
                 <p>Point it at a name and it does the reading, the counting, and the ranking for you in one pass.</p>
                 <ul className="checklist">
-                  <li><span className="check-dot blue" /> Aggregate lifetime PRs across every public repo</li>
-                  <li><span className="check-dot blue" /> Compute merge rate and average days to merge</li>
-                  <li><span className="check-dot blue" /> Rank the repositories where effort truly lands</li>
-                  <li><span className="check-dot blue" /> Surface an org’s active repos and likely maintainers</li>
+                  <li><span className="check-dot accent" /> Aggregate lifetime PRs across every public repo</li>
+                  <li><span className="check-dot accent" /> Compute merge rate and average days to merge</li>
+                  <li><span className="check-dot accent" /> Rank the repositories where effort truly lands</li>
+                  <li><span className="check-dot accent" /> Surface an org’s active repos and likely maintainers</li>
                 </ul>
               </Reveal>
             </div>
