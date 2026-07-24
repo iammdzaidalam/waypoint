@@ -7,7 +7,7 @@
    cards. Structure comes from 1px hairlines instead — a
    continuous bordered .frame down the page, .hatch bands
    between sections, and .cell-grid cards divided by rules.
-   Warm ink on white/#f9f9f8, one warm orange accent, Matter
+   Warm ink on white/#f9f9f8, one blue accent, Matter
    for type at a large scale with normal letter-spacing.
    ============================================================ */
 
@@ -31,19 +31,19 @@
   --line: #e5e5e5;
   --line-strong: #d6d3d1;
 
-  /* The original warm orange. It measures 3.79:1 against white, so it
-     clears AA for large text but not for body-size copy either as text on
-     white or as a band under white text. Chosen deliberately. */
-  --accent: #e0562a;
-  --accent-strong: #b8431f;
-  --accent-soft: rgba(224, 86, 42, 0.10);
-  --accent-rgb: 224, 86, 42;
+  /* Soloterm blue, measured off their hero. 5.25:1 against white, so it
+     clears AA for body copy both as text on white and as a band under
+     white text. --accent-strong is their button-border blue. */
+  --accent: #155dfc;
+  --accent-strong: #193cb8;
+  --accent-soft: rgba(21, 93, 252, 0.10);
+  --accent-rgb: 21, 93, 252;
 
   /* full-bleed hero band */
-  --hero-band: #e0562a;
-  --hero-band-2: #cc4a20;
+  --hero-band: #155dfc;
+  --hero-band-2: #1350e0;
   --hero-ink: #ffffff;
-  /* 0.88 not 0.72: dimmed white needs weight to stay readable on orange */
+  /* 0.88 not 0.72: dimmed white needs weight to stay readable on the band */
   --hero-ink-dim: rgba(255, 255, 255, 1);
 
   /* data viz */
@@ -99,15 +99,17 @@
   --line: #292524;
   --line-strong: #3a3532;
 
-  --accent: #ff8a5c;
-  --accent-strong: #ffa982;
-  --accent-soft: rgba(255, 138, 92, 0.16);
-  --accent-rgb: 255, 138, 92;
+  /* lifted blue: #155dfc only reaches 2.4:1 on the near-black surface,
+     so the accent brightens for dark rather than reusing the brand value */
+  --accent: #6b95ff;
+  --accent-strong: #93b3ff;
+  --accent-soft: rgba(107, 149, 255, 0.16);
+  --accent-rgb: 107, 149, 255;
 
-  /* the band keeps the brand orange in both themes — it is a brand
+  /* the band keeps the brand blue in both themes — it is a brand
      surface, not a themed one */
-  --hero-band: #e0562a;
-  --hero-band-2: #cc4a20;
+  --hero-band: #155dfc;
+  --hero-band-2: #1350e0;
   --hero-ink: #ffffff;
   --hero-ink-dim: rgba(255, 255, 255, 0.88);
 
@@ -469,7 +471,7 @@ kbd,
   display: block;
 }
 
-/* Over the orange band the surface is dark in either theme, so the
+/* Over the blue band the surface is dark in either theme, so the
    white mark always wins there. */
 .hero-band .wordmark .wordmark-black,
 .cta-band .wordmark .wordmark-black {
@@ -1564,7 +1566,7 @@ ul.timeline li:nth-child(n + 6) {
   background-repeat: no-repeat;
 }
 
-/* The page's two frame rules carried through the orange bands, on exactly
+/* The page's two frame rules carried through the blue bands, on exactly
    the same 1240px column every section uses. Without these the bands are
    detached and the rules only exist between them; with them the line runs
    unbroken from the nav all the way to the footer. */
