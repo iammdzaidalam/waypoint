@@ -237,13 +237,14 @@ kbd,
   z-index: 1;
 }
 
-/* Result pages run full-bleed so each section can draw its own .frame
-   rules edge to edge, the same as the homepage. Only nav clearance here. */
+/* Result pages run full-bleed so each section draws its own .frame rules
+   edge to edge, the same as the homepage. No padding: the nav is sticky
+   and so already takes up flow space, and any padding here sits outside
+   the frames and breaks the vertical rules away from the nav and footer.
+   Inner sections supply their own spacing. */
 .wrap {
   position: relative;
   z-index: 1;
-  padding-top: 56px;
-  padding-bottom: 40px;
 }
 
 /* the search bar that sits above a result, inside the frame */
