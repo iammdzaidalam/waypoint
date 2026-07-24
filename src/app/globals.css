@@ -1489,36 +1489,79 @@ ul.timeline li:nth-child(n + 6) {
   overflow: hidden;
 }
 
-/* Blueprint texture: the plan drawing as real elements — 35 rules and 57
-   markers positioned from src/content/hero-grid.js. Same technique as the
-   frame rules, so the whole drawing is hairlines rather than an asset,
-   and it inherits the theme instead of being baked into a file. */
+/* Hero backdrop: an even hairline grid with hatched cells, dot clusters
+   and tick marks placed on it. Built from the page's own materials — the
+   same 1px rules as .frame and the same diagonal stripe as .hatch — so the
+   hero reads as part of the drawing rather than decoration dropped on top.
+   The 124px cell divides the 1240px frame exactly 10 times, and the grid
+   is centred, so the frame's two rules land on grid lines at any width. */
 .hero-grid {
+  --hero-cell: 124px;
+  --hero-dot: 6px;
+  --hero-dot-gap: 16px;
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.55;
   color: #fff;
+  /* the grid itself is the faintest layer — it should read as ruling, not
+     as a pattern competing with the headline */
+  background-image:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+  background-size: var(--hero-cell) var(--hero-cell);
+  background-position: calc(50% + 0.5px) 0;
 }
 
-.hero-grid i {
+.hero-grid > span {
   position: absolute;
-  background: currentColor;
 }
 
-.hg-v {
-  width: 1px;
+/* cells of diagonal stripe, reusing the section-divider hatch */
+.hg-hatch {
+  background-image: repeating-linear-gradient(315deg,
+      rgba(255, 255, 255, 0.5) 0 1px,
+      transparent 0 50%);
+  background-size: 10px 10px;
 }
 
-.hg-h {
-  height: 1px;
+/* 3x3 block of squares. Columns come from the background, rows from a
+   mask; where the two overlap you get squares, which a radial-gradient
+   dot grid cannot give you. */
+.hg-dots {
+  width: calc(var(--hero-dot) * 3 + var(--hero-dot-gap) * 2);
+  height: calc(var(--hero-dot) * 3 + var(--hero-dot-gap) * 2);
+  margin: calc(var(--hero-cell) / 2 - (var(--hero-dot) * 3 + var(--hero-dot-gap) * 2) / 2);
+  background-image: repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.34) 0 var(--hero-dot),
+      transparent var(--hero-dot) calc(var(--hero-dot) + var(--hero-dot-gap)));
+  -webkit-mask-image: repeating-linear-gradient(180deg,
+      #000 0 var(--hero-dot),
+      transparent var(--hero-dot) calc(var(--hero-dot) + var(--hero-dot-gap)));
+  mask-image: repeating-linear-gradient(180deg,
+      #000 0 var(--hero-dot),
+      transparent var(--hero-dot) calc(var(--hero-dot) + var(--hero-dot-gap)));
 }
 
-/* fixed size so the squares stay square while the rules stretch */
-.hg-m {
+/* single square, centred in its cell */
+.hg-mark {
+  width: var(--hero-dot);
+  height: var(--hero-dot);
+  margin: calc(var(--hero-cell) / 2 - var(--hero-dot) / 2);
+  background: rgba(255, 255, 255, 0.34);
+}
+
+/* + tick centred on a grid intersection */
+.hg-cross {
   width: 9px;
   height: 9px;
+  margin: -4px 0 0 -4px;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.34) 0 0),
+    linear-gradient(rgba(255, 255, 255, 0.34) 0 0);
+  background-size: 100% 1px, 1px 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* The page's two frame rules carried through the orange bands, on exactly

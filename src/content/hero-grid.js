@@ -1,110 +1,46 @@
-// Geometry of the hero plan drawing, in percentages of the hero box.
-// Traced from the source artwork and snapped to the 124.5px grid it is
-// built on, then normalised so it scales with the hero at any height.
+// Hero backdrop composition.
 //
-//   V: [x, y, height]   vertical rules
-//   H: [x, y, width]    horizontal rules
-//   M: [x, y]           square markers
+// The grid itself is drawn in CSS. Everything here is placed ON that grid,
+// in whole cells, so nothing can land half a cell out of alignment.
 //
-// Rendered as real elements by HeroGrid, not as an image.
+//   col  cells left (negative) or right (positive) of the page centre line
+//   row  cells down from the top of the hero
+//   w/h  size in cells
+//
+// Cell size is --hero-cell (124px) and the grid is centred, so the 1240px
+// frame is exactly 10 cells wide and its two rules fall on grid lines.
 
-export const V = [
-  [0.0, 0.0, 99.923],
-  [1.6, 0.0, 99.923],
-  [2.95, 2.152, 97.771],
-  [4.2, 0.0, 99.923],
-  [5.25, 2.152, 23.905],
-  [5.25, 49.962, 20.292],
-  [5.25, 88.932, 10.992],
-  [6.45, 0.0, 99.923],
-  [7.85, 0.0, 99.923],
-  [14.1, 0.0, 99.923],
-  [20.35, 40.354, 59.57],
-  [26.6, 0.0, 2.152],
-  [26.6, 49.962, 49.962],
-  [73.4, 49.962, 49.962],
-  [79.6, 40.354, 59.57],
-  [85.85, 2.152, 97.771],
-  [92.1, 2.152, 97.771],
-  [98.4, 0.0, 99.923],
+// Cells filled with the site's diagonal hatch — the same stripe as the
+// section dividers, so the hero is made of the page's own materials.
+export const HATCH = [
+  { col: -7, row: 2, w: 1, h: 3 },
+  { col: -6, row: 5, w: 1, h: 4 },
+  { col: -5, row: 8, w: 2, h: 1 },
+  { col: 5, row: 0, w: 2, h: 2 },
+  { col: 6, row: 6, w: 1, h: 3 },
 ];
 
-export const H = [
-  [0.0, 0.0, 100.0],
-  [0.0, 2.152, 98.4],
-  [0.0, 11.683, 14.1],
-  [85.85, 11.683, 12.55],
-  [0.0, 21.291, 14.1],
-  [85.85, 21.291, 12.55],
-  [0.0, 30.822, 14.1],
-  [85.85, 30.822, 12.55],
-  [0.0, 40.354, 20.35],
-  [79.6, 40.354, 12.5],
-  [0.0, 49.962, 26.6],
-  [73.4, 49.962, 25.0],
-  [0.0, 59.57, 98.4],
-  [0.0, 69.178, 98.4],
-  [0.0, 97.617, 10.65],
-  [25.75, 97.617, 67.2],
-  [0.0, 99.923, 100.0],
+// 3x3 clusters of small squares.
+export const DOTS = [
+  { col: -5, row: 1 },
+  { col: -4, row: 4 },
+  { col: -6, row: 7 },
+  { col: 3, row: 2 },
+  { col: 4, row: 5 },
+  { col: 5, row: 7 },
 ];
 
-export const M = [
-  [92.95, 3.536],
-  [95.0, 3.536],
-  [97.05, 3.536],
-  [92.95, 6.457],
-  [94.95, 6.457],
-  [97.0, 6.457],
-  [92.95, 9.377],
-  [95.0, 9.377],
-  [97.05, 9.377],
-  [92.95, 13.144],
-  [95.0, 13.144],
-  [97.05, 13.144],
-  [4.45, 15.988],
-  [92.95, 15.988],
-  [95.0, 15.988],
-  [97.0, 15.988],
-  [92.95, 18.909],
-  [95.0, 18.909],
-  [97.0, 18.909],
-  [10.7, 25.596],
-  [88.75, 25.596],
-  [4.4, 35.127],
-  [94.95, 35.204],
-  [8.65, 41.891],
-  [10.7, 41.891],
-  [12.75, 41.891],
-  [8.65, 44.812],
-  [10.7, 44.812],
-  [12.75, 44.812],
-  [88.7, 44.812],
-  [8.65, 47.656],
-  [10.7, 47.656],
-  [12.75, 47.656],
-  [80.45, 51.499],
-  [82.5, 51.499],
-  [84.5, 51.499],
-  [4.45, 54.343],
-  [16.95, 54.343],
-  [80.45, 54.343],
-  [82.5, 54.343],
-  [94.95, 54.343],
-  [84.5, 54.42],
-  [80.45, 57.264],
-  [82.5, 57.264],
-  [84.5, 57.264],
-  [21.15, 61.107],
-  [23.2, 61.107],
-  [25.25, 61.107],
-  [10.7, 63.951],
-  [21.2, 63.951],
-  [23.2, 63.951],
-  [25.25, 63.951],
-  [76.25, 63.951],
-  [88.7, 63.951],
-  [21.15, 66.872],
-  [23.2, 66.872],
-  [25.2, 66.872],
+// Single squares dropped in individual cells.
+export const MARKS = [
+  { col: -7, row: 0 }, { col: -3, row: 1 }, { col: -6, row: 3 },
+  { col: -2, row: 6 }, { col: -4, row: 8 }, { col: 2, row: 0 },
+  { col: 4, row: 1 }, { col: 6, row: 3 }, { col: 3, row: 6 },
+  { col: 5, row: 8 }, { col: -1, row: 4 }, { col: 1, row: 7 },
 ];
+
+// Intersections that get a + tick. Kept to the outer columns, the way a
+// plan drawing marks its margins rather than every crossing.
+export const CROSSES = [];
+for (const col of [-7, -6, -5, -4, 4, 5, 6, 7]) {
+  for (let row = 0; row <= 9; row++) CROSSES.push({ col, row });
+}
