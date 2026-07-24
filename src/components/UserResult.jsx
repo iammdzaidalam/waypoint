@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { EVENT_LABELS, timeAgo, filterPRs } from '../lib/utils';
 import ContributionsModal from './ContributionsModal';
-import { ResultHead, ResultSection, Bento, StatCell } from './ResultLayout';
+import { ResultHead, ResultSection, Bento, StatCell, RowList, Row } from './ResultLayout';
 
 const RANGE_LABELS = {
   '14': 'last 2 weeks',
@@ -170,21 +170,18 @@ export default function UserResult({ data, onTrace }) {
               <a href={`https://github.com/${userData.login}`} className="font-mono text-xs text-accent hover:opacity-70" target="_blank" rel="noopener noreferrer">View all on GitHub →</a>
             }
           >
-            <ul className="m-0 list-none border-t border-line p-0">
+            <RowList>
               {timeline.map((item, i) => (
-                <li key={i} className="border-b border-line py-4">
-                  <div className="flex justify-between gap-3 font-mono text-[11.5px] text-text-faint">
-                    <span>{item.repo} · {EVENT_LABELS[item.type] || item.type}{item.action ? ` · ${item.action}` : ''}</span>
-                    <span className="shrink-0">{timeAgo(item.date)}</span>
-                  </div>
-                  <div className="mt-1 text-sm">
-                    {item.url
-                      ? <a className="hover:text-accent" href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
-                      : item.title}
-                  </div>
-                </li>
+                <Row
+                  key={i}
+                  lead={<span className="truncate">{item.repo} · {EVENT_LABELS[item.type] || item.type}{item.action ? ` · ${item.action}` : ''}</span>}
+                  when={timeAgo(item.date)}
+                  title={item.url
+                    ? <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
+                    : item.title}
+                />
               ))}
-            </ul>
+            </RowList>
           </ResultSection>
         </>
       )}

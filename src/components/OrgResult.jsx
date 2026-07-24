@@ -1,6 +1,5 @@
 import { timeAgo } from '../lib/utils';
-import Image from 'next/image';
-import { ResultHead, ResultSection, Bento } from './ResultLayout';
+import { ResultHead, ResultSection, Bento, PersonCell } from './ResultLayout';
 
 export default function OrgResult({ data, onTrace }) {
   const { orgData, activeRepos, keyContributors, members, memberLogins } = data;
@@ -44,11 +43,11 @@ export default function OrgResult({ data, onTrace }) {
         title="Likely maintainers"
         note={`Inferred from top contributors on the org's ${Math.min(5, activeRepos.length)} most recently active repos. Not an official role, GitHub doesn't expose team permissions publicly, so treat this as a strong hint rather than certainty.`}
       >
-        <Bento cols={4}>
+        <Bento cols={3}>
           {keyContributors.map(([login, pdata]) => (
             <PersonCell
               key={login}
-              avatar={`${pdata.avatar}&s=68`}
+              avatar={`${pdata.avatar}&s=112`}
               login={login}
               meta={`${pdata.total} contributions`}
               tag={memberLogins.includes(login) ? 'public member' : null}
@@ -65,11 +64,11 @@ export default function OrgResult({ data, onTrace }) {
           gutter
           note="Listed publicly as members of the organization, which makes them good candidates to ask for guidance if you want to get involved."
         >
-          <Bento cols={4}>
+          <Bento cols={3}>
             {extraMembers.slice(0, 12).map(m => (
               <PersonCell
                 key={m.login}
-                avatar={`${m.avatar_url}&s=68`}
+                avatar={`${m.avatar_url}&s=112`}
                 login={m.login}
                 onTrace={onTrace}
               />
@@ -81,18 +80,3 @@ export default function OrgResult({ data, onTrace }) {
   );
 }
 
-function PersonCell({ avatar, login, meta, tag, onTrace }) {
-  return (
-    <div className="flex flex-col items-start gap-3">
-      <div className="flex items-center gap-3">
-        <Image src={avatar} alt={`${login} avatar`} width={34} height={34} className="border border-line" />
-        <div className="min-w-0">
-          <div className="truncate font-mono text-[13.5px]">{login}</div>
-          {meta && <div className="font-mono text-[11.5px] text-text-faint">{meta}</div>}
-        </div>
-      </div>
-      {tag && <span className="border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-accent">{tag}</span>}
-      <button className="mt-auto font-mono text-xs text-accent hover:opacity-70" onClick={() => onTrace(login)}>Trace →</button>
-    </div>
-  );
-}

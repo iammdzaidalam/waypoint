@@ -71,3 +71,44 @@ export function StatCell({ value, label }) {
     </div>
   );
 }
+
+// Bordered list block. Rows carry the same inset as a bento cell so the
+// two read as one system, rather than bare hairlines floating in the column.
+export function RowList({ children }) {
+  return <ul className="row-list">{children}</ul>;
+}
+
+export function Row({ lead, when, title }) {
+  return (
+    <li>
+      <div className="row-top">
+        <span className="row-lead">{lead}</span>
+        <span className="row-when">{when}</span>
+      </div>
+      <div className="row-title">{title}</div>
+    </li>
+  );
+}
+
+// Person cell shared by the org and repo views.
+export function PersonCell({ avatar, login, meta, tag, onTrace }) {
+  return (
+    <div className="flex h-full flex-col items-start gap-4">
+      <div className="flex items-center gap-4">
+        <Image src={avatar} alt={`${login} avatar`} width={56} height={56} className="shrink-0 border border-line" />
+        <div className="min-w-0">
+          <div className="truncate font-mono text-[15px]">{login}</div>
+          {meta && <div className="mt-1 font-mono text-[13px] leading-relaxed text-text-faint">{meta}</div>}
+        </div>
+      </div>
+      {tag && (
+        <span className="border border-line px-2 py-0.5 font-mono text-[11px] uppercase tracking-wide text-accent">
+          {tag}
+        </span>
+      )}
+      <button className="mt-auto font-mono text-[13px] text-accent hover:opacity-70" onClick={() => onTrace(login)}>
+        Trace →
+      </button>
+    </div>
+  );
+}

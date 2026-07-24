@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { timeAgo, filterPRs } from '../lib/utils';
 import { ExportService } from '../lib/services';
-import Image from 'next/image';
-import { ResultHead, ResultSection, Bento, StatCell } from './ResultLayout';
+import { ResultHead, ResultSection, Bento, StatCell, RowList, Row, PersonCell } from './ResultLayout';
 
 export default function RepoResult({ data, onTrace }) {
   const { repoData, allPRs, allIssues } = data;
@@ -160,23 +159,17 @@ export default function RepoResult({ data, onTrace }) {
           </div>
         }
       >
-        <Bento cols={4}>
+        <Bento cols={3}>
           {topContributors.map(([login, pdata]) => {
             const rate = pdata.count > 0 ? Math.round((pdata.merged / pdata.count) * 100) : 0;
             return (
-              <div key={login} className="flex flex-col items-start gap-3">
-                <div className="flex items-center gap-3">
-                  <Image src={`${pdata.avatar}&s=68`} alt={`${login} avatar`} width={34} height={34} className="border border-line" />
-                  <div className="min-w-0">
-                    <div className="truncate font-mono text-[13.5px]">{login}</div>
-                    <div className="font-mono text-[11.5px] leading-snug text-text-faint">
-                      <span className="text-accent">{pdata.count} PRs</span> · {pdata.merged} merged<br />
-                      {rate}% merge rate
-                    </div>
-                  </div>
-                </div>
-                <button className="mt-auto font-mono text-xs text-accent hover:opacity-70" onClick={() => onTrace(login)}>Trace →</button>
-              </div>
+              <PersonCell
+                key={login}
+                avatar={`${pdata.avatar}&s=112`}
+                login={login}
+                meta={<><span className="text-accent">{pdata.count} PRs</span> · {pdata.merged} merged<br />{rate}% merge rate</>}
+                onTrace={onTrace}
+              />
             );
           })}
         </Bento>
@@ -214,40 +207,38 @@ export default function RepoResult({ data, onTrace }) {
           filtered.length === 0
             ? <p className="text-[13px] text-text-faint">No pull requests found in this time range.</p>
             : (
-              <ul className="m-0 list-none border-t border-line p-0">
+              <RowList>
                 {filtered.slice(0, 15).map(p => {
                   const state = p.merged_at ? 'merged' : (p.state === 'open' ? 'open' : 'closed');
                   return (
-                    <li key={p.id} className="border-b border-line py-4">
-                      <div className="flex justify-between gap-3 font-mono text-[11.5px] text-text-faint">
-                        <span><span className={`state-badge ${state}`}>{state}</span> {p.user?.login || 'unknown'} · into {p.base?.ref || '?'}</span>
-                        <span className="shrink-0">{timeAgo(p.created_at)}</span>
-                      </div>
-                      <div className="mt-1 text-sm"><a className="hover:text-accent" href={p.html_url} target="_blank" rel="noopener noreferrer">{p.title}</a></div>
-                    </li>
+                    <Row
+                      key={p.id}
+                      lead={<><span className={`state-badge ${state}`}>{state}</span> <span className="truncate">{p.user?.login || 'unknown'} · into {p.base?.ref || '?'}</span></>}
+                      when={timeAgo(p.created_at)}
+                      title={<a href={p.html_url} target="_blank" rel="noopener noreferrer">{p.title}</a>}
+                    />
                   );
                 })}
-              </ul>
+              </RowList>
             )
         )}
         {recentTab === 'issues' && (
           filteredIssues.length === 0
             ? <p className="text-[13px] text-text-faint">No issues found in this time range.</p>
             : (
-              <ul className="m-0 list-none border-t border-line p-0">
+              <RowList>
                 {filteredIssues.slice(0, 15).map(i => {
                   const state = i.state === 'open' ? 'open' : 'closed';
                   return (
-                    <li key={i.id} className="border-b border-line py-4">
-                      <div className="flex justify-between gap-3 font-mono text-[11.5px] text-text-faint">
-                        <span><span className={`state-badge ${state}`}>{state}</span> {i.user?.login || 'unknown'}</span>
-                        <span className="shrink-0">{timeAgo(i.created_at)}</span>
-                      </div>
-                      <div className="mt-1 text-sm"><a className="hover:text-accent" href={i.html_url} target="_blank" rel="noopener noreferrer">{i.title}</a></div>
-                    </li>
+                    <Row
+                      key={i.id}
+                      lead={<><span className={`state-badge ${state}`}>{state}</span> <span className="truncate">{i.user?.login || 'unknown'}</span></>}
+                      when={timeAgo(i.created_at)}
+                      title={<a href={i.html_url} target="_blank" rel="noopener noreferrer">{i.title}</a>}
+                    />
                   );
                 })}
-              </ul>
+              </RowList>
             )
         )}
       </ResultSection>

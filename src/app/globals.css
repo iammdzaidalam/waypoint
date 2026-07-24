@@ -788,6 +788,55 @@ button.tokenToggle:hover {
    RESULT VIEWS  ·  restyled to the same clean system
    ========================================================= */
 
+/* Bordered row list: an enclosed block with the same 24px inset as a
+   bento cell, so lists and grids share one geometry. */
+.row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line);
+}
+
+.row-list > li {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.row-list > li:last-child {
+  border-bottom: 0;
+}
+
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.row-lead {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.row-when {
+  flex-shrink: 0;
+}
+
+.row-title {
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.row-title a:hover {
+  color: var(--accent);
+}
+
 .results {
   position: relative;
   z-index: 1;
@@ -1897,10 +1946,20 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
 }
 
 /* ---- homepage responsive ---- */
+@media (max-width: 1100px) {
+  .cell-grid.cols-5 { grid-template-columns: repeat(3, 1fr); }
+  .cell-grid.cols-5 > *:nth-child(5n) { border-right: 1px solid var(--line); }
+  .cell-grid.cols-5 > *:nth-child(3n) { border-right: 0; }
+}
+
 @media (max-width: 900px) {
   .cell-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
   .cell-grid.cols-4 > *:nth-child(4n) { border-right: 1px solid var(--line); }
   .cell-grid.cols-4 > *:nth-child(2n) { border-right: 0; }
+
+  .cell-grid.cols-5 { grid-template-columns: repeat(2, 1fr); }
+  .cell-grid.cols-5 > *:nth-child(3n) { border-right: 1px solid var(--line); }
+  .cell-grid.cols-5 > *:nth-child(2n) { border-right: 0; }
 }
 
 @media (max-width: 820px) {
