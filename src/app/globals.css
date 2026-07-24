@@ -384,11 +384,51 @@ kbd,
 .brand {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 17px;
-  letter-spacing: normal;
   color: var(--text);
+}
+
+/* Wordmark: both marks are in the DOM, CSS shows the one that suits the
+   theme. Black ink on light surfaces, white ink on dark. */
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.wordmark img {
+  height: 100%;
+  width: auto;
+}
+
+/* The show/hide rules are scoped under .wordmark so they outrank the
+   `.wordmark img` sizing rule above on specificity — unscoped they lose
+   and both marks paint side by side. */
+.wordmark .wordmark-black {
+  display: block;
+}
+
+.wordmark .wordmark-white {
+  display: none;
+}
+
+[data-theme='dark'] .wordmark .wordmark-black {
+  display: none;
+}
+
+[data-theme='dark'] .wordmark .wordmark-white {
+  display: block;
+}
+
+/* Over the orange band the surface is dark in either theme, so the
+   white mark always wins there. */
+.hero-band .wordmark .wordmark-black,
+.cta-band .wordmark .wordmark-black {
+  display: none;
+}
+
+.hero-band .wordmark .wordmark-white,
+.cta-band .wordmark .wordmark-white {
+  display: block;
 }
 
 .nav-right {
@@ -1143,18 +1183,31 @@ ul.timeline .tl-title a:hover {
 }
 
 /* the big flat wordmark (static, line-colored) */
+/* Oversized mark bled off the bottom edge. The artwork is solid ink, so
+   it gets dialled right down to sit at roughly the weight of a hairline
+   — at full strength it would shout louder than the whole footer. */
 .footer-wordmark {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: normal;
-  font-size: clamp(64px, 20vw, 260px);
-  line-height: 0.85;
-  padding: 0 24px;
-  margin-bottom: -0.14em;
   max-width: var(--frame-w);
   margin-inline: auto;
+  padding: 0 24px;
+  margin-bottom: -70px;
   user-select: none;
-  color: var(--line);
+  pointer-events: none;
+  opacity: 0.09;
+}
+
+.footer-wordmark .wordmark {
+  width: 100%;
+  height: auto !important;
+}
+
+.footer-wordmark .wordmark img {
+  width: 100%;
+  height: auto;
+}
+
+[data-theme='dark'] .footer-wordmark {
+  opacity: 0.13;
 }
 
 .footer-legal {

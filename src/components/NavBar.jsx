@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Wordmark from './Wordmark';
 
 export default function NavBar() {
   const [theme, setTheme] = useState('light');
@@ -20,7 +21,9 @@ export default function NavBar() {
   return (
     <nav className="nav">
       <div className="nav-inner">
-        <a href="/#top" className="brand">waypoint</a>
+        <a href="/#top" className="brand" aria-label="Waypoint home">
+          <Wordmark height={20} priority />
+        </a>
 
         <div className="nav-right">
           <a

@@ -1,3 +1,5 @@
+import Wordmark from './Wordmark';
+
 const REPO = 'https://github.com/iammdzaidalam/waypoint';
 
 export default function SiteFooter() {
@@ -5,7 +7,9 @@ export default function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-top">
         <div>
-          <a href="/#top" className="brand">waypoint</a>
+          <a href="/#top" className="brand" aria-label="Waypoint home">
+            <Wordmark height={22} />
+          </a>
           <p className="footer-blurb">
             A free, open source GitHub activity tracer. See where developers and projects actually spend their time.
           </p>
@@ -40,7 +44,9 @@ export default function SiteFooter() {
 
       {/* Sits last and is clipped by the footer's overflow, so only the
           top of the letterforms shows — same as the reference. */}
-      <div className="footer-wordmark" aria-hidden="true">waypoint</div>
+      <div className="footer-wordmark" aria-hidden="true">
+        <Wordmark height={260} />
+      </div>
     </footer>
   );
 }
