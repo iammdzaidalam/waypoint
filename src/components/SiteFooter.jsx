@@ -33,12 +33,14 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      <div className="footer-wordmark" aria-hidden="true">waypoint</div>
-
       <div className="footer-legal">
         <span>© {new Date().getFullYear()} Waypoint · Reads public GitHub data via the official API.</span>
         <span>Not affiliated with GitHub.</span>
       </div>
+
+      {/* Sits last and is clipped by the footer's overflow, so only the
+          top of the letterforms shows — same as the reference. */}
+      <div className="footer-wordmark" aria-hidden="true">waypoint</div>
     </footer>
   );
 }

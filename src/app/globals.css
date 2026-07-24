@@ -1,9 +1,14 @@
 @import 'tailwindcss';
 
 /* ============================================================
-   Waypoint design system  ·  Soloterm-clean x Command Code
-   Light-first, generous space, soft cards, one warm accent,
-   mono `//` labels and a faint grain for the terminal flavor.
+   Waypoint design system
+
+   Everything is square: no radii, no shadows, no gaps between
+   cards. Structure comes from 1px hairlines instead — a
+   continuous bordered .frame down the page, .hatch bands
+   between sections, and .cell-grid cards divided by rules.
+   Warm ink on white/#f9f9f8, one blue accent, Matter for
+   type at a large scale with normal letter-spacing.
    ============================================================ */
 
 :root {
@@ -328,7 +333,9 @@ kbd,
   margin-inline: auto;
   height: 32px;
   border-inline: 1px solid var(--line);
-  background: repeating-linear-gradient(315deg, var(--line) 0 1px, transparent 0 50%);
+  background: repeating-linear-gradient(315deg,
+      color-mix(in srgb, var(--line) 56%, transparent) 0 1px,
+      transparent 0 50%);
 }
 
 /* section whose inner column is narrower than the frame, the leftover
@@ -339,7 +346,9 @@ kbd,
 }
 
 .gutter-hatch {
-  background: repeating-linear-gradient(315deg, var(--line) 0 1px, transparent 0 50%);
+  background: repeating-linear-gradient(315deg,
+      color-mix(in srgb, var(--line) 56%, transparent) 0 1px,
+      transparent 0 50%);
 }
 
 /* card system — grid cells split by hairlines, no gap/radius/shadow.
@@ -397,18 +406,6 @@ kbd,
   position: relative;
 }
 
-/* Macroscope-style: links pinned to the optical center of the bar */
-.nav-links {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.nav-cta {
-  padding: 8px 16px;
-  font-size: 13.5px;
-}
-
 .brand {
   display: inline-flex;
   align-items: center;
@@ -416,22 +413,6 @@ kbd,
   font-weight: 500;
   font-size: 17px;
   letter-spacing: normal;
-  color: var(--text);
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  margin-left: 12px;
-}
-
-.nav-link {
-  font-size: 13.5px;
-  color: var(--text-dim);
-}
-
-.nav-link:hover {
   color: var(--text);
 }
 
@@ -1849,10 +1830,6 @@ ul.timeline li {
 
   .section {
     padding-block: 60px;
-  }
-
-  .nav-links {
-    display: none;
   }
 
   .people-grid {

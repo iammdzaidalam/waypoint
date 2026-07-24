@@ -22,12 +22,6 @@ export default function NavBar() {
       <div className="nav-inner">
         <a href="/#top" className="brand">waypoint</a>
 
-        <div className="nav-links">
-          <a href="/#how" className="nav-link">Problem</a>
-          <a href="/#features" className="nav-link">Features</a>
-          <a href="/#faq" className="nav-link">FAQ</a>
-        </div>
-
         <div className="nav-right">
           <a
             href="https://github.com/iammdzaidalam/waypoint"
