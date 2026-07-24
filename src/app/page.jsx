@@ -161,7 +161,7 @@ export default async function Home({ searchParams }) {
       </section>
 
       {/* ---------------- trace-anything chip strip ---------------- */}
-      <section className="sec" style={{ paddingBlock: '0' }}>
+      <section className="sec flush">
         <div className="frame">
           <Reveal>
             <div className="chip-strip">

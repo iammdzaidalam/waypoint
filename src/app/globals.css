@@ -1127,11 +1127,13 @@ ul.timeline .tl-title a:hover {
 
 /* ------------------------------ footer ------------------------------ */
 
+/* No top margin: the footer butts straight onto whatever precedes it.
+   A margin here leaves a bare strip between the closing band and the
+   footer that reads as a seam. */
 .site-footer {
   position: relative;
   z-index: 1;
   border-top: 1px solid var(--line);
-  margin-top: 60px;
   padding-top: 56px;
   overflow: hidden;
 }
@@ -1520,9 +1522,18 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
 }
 
 /* ---- generic soloterm section ---- */
+/* The vertical padding lives on the .frame, not the <section>. On the
+   section it sits outside the bordered column, so the two vertical rules
+   stop at the end of each section's content and restart 80px later —
+   the whole page reads as disconnected line fragments. Padding the frame
+   instead makes every section's rules butt directly against the next
+   frame or hatch, so the line runs unbroken from hero to footer. */
 .sec {
   position: relative;
   z-index: 1;
+}
+
+.sec > .frame {
   padding-block: 80px;
 }
 
@@ -1530,8 +1541,13 @@ ul.timeline li:nth-child(n + 6) { animation-delay: 200ms; }
   background: var(--bg-2);
 }
 
-.sec.pad-top-lg {
+.sec.pad-top-lg > .frame {
   padding-top: 130px;
+}
+
+/* band that supplies its own padding (the chip strip) */
+.sec.flush > .frame {
+  padding-block: 0;
 }
 
 /* centered section header, narrow */

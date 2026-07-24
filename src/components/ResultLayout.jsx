@@ -35,8 +35,10 @@ export function ResultSection({ label, title, note, control, children, gutter })
   return (
     <>
       <div className="hatch" />
-      <section className="py-14">
-        <div className={`frame${gutter ? ' gutter-hatch' : ''}`}>
+      {/* padding on the frame, not the section, so the vertical rules
+          run unbroken into the hatch above and below */}
+      <section>
+        <div className={`frame py-14${gutter ? ' gutter-hatch' : ''}`}>
           <div className="col">
             <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
               <div>
