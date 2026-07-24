@@ -3,6 +3,7 @@ import SearchBar from '../components/SearchBar';
 import TokenBox from '../components/TokenBox';
 import RecentSearches from '../components/RecentSearches';
 import Reveal from '../components/Reveal';
+import TerminalWindow from '../components/TerminalWindow';
 import { buildTracePath } from '../lib/utils';
 
 const faqs = [
@@ -74,7 +75,7 @@ export default async function Home({ searchParams }) {
   return (
     <>
       {/* ---------------- blue hero ---------------- */}
-      <section className="hero-blue" id="top">
+      <section className="hero-band" id="top">
         <div className="container-narrow">
           <span className="hero-badge">// github activity tracer</span>
           <h1>See where developers <span className="hl">actually</span> spend their time.</h1>
@@ -90,38 +91,17 @@ export default async function Home({ searchParams }) {
         </div>
 
         <Reveal className="hero-window-wrap" y={26} delay={0.1}>
-          <div className="demo-window">
-            <div className="demo-bar">
-              <span className="demo-dot" />
-              <span className="demo-dot" />
-              <span className="demo-dot live" />
-              <span className="demo-title">waypoint ~ trace</span>
-            </div>
-            <div className="demo-body">
-              <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
-                {['Users', 'Orgs', 'Repos'].map((t, i) => (
-                  <span key={t} style={{
-                    fontFamily: 'var(--font-mono)', fontSize: 12, padding: '4px 11px', borderRadius: 0,
-                    border: '1px solid var(--line)',
-                    background: i === 0 ? 'var(--accent-soft)' : 'transparent',
-                    color: i === 0 ? 'var(--accent)' : 'var(--text-faint)',
-                  }}>{t}</span>
-                ))}
-              </div>
-              <div className="demo-line"><span className="prompt">❯</span> waypoint trace torvalds</div>
-              <div className="demo-line" style={{ color: 'var(--text-faint)' }}>&nbsp;&nbsp;resolving user · reading public events · aggregating pull requests</div>
-              <div style={{ display: 'flex', gap: 10, margin: '16px 0', flexWrap: 'wrap' }}>
-                {[['1,204', 'PRs opened'], ['92%', 'merge rate'], ['2.4d', 'avg to merge']].map(([v, l]) => (
-                  <div key={l} style={{ flex: 1, minWidth: 96, border: '1px solid var(--line)', borderRadius: 0, padding: '12px 14px', background: 'var(--panel-2)' }}>
-                    <div style={{ fontFamily: 'var(--font-sans)', fontSize: 24, fontWeight: 500, letterSpacing: 'normal' }}>{v}</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: 3 }}>{l}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="demo-line">&nbsp;&nbsp;<span style={{ color: 'var(--accent)' }}>→</span> most active in torvalds/linux · 838 PRs</div>
-              <div className="demo-line" style={{ color: 'var(--text-dim)' }}>✓ trace complete</div>
-            </div>
-          </div>
+          <TerminalWindow title="waypoint — trace">
+            <div className="demo-line"><span className="prompt">❯</span> waypoint trace torvalds</div>
+            <div className="demo-line t-dim">  resolving user · reading public events · aggregating pull requests</div>
+            <div className="demo-line"> </div>
+            <div className="demo-line"><span className="t-dim">  PRs opened   </span><span className="t-white">1,204</span></div>
+            <div className="demo-line"><span className="t-dim">  merge rate   </span><span className="t-green">92%</span></div>
+            <div className="demo-line"><span className="t-dim">  avg to merge </span><span className="t-yellow">2.4d</span></div>
+            <div className="demo-line"> </div>
+            <div className="demo-line"><span className="t-dim">  →</span> most active in torvalds/linux <span className="t-dim">· 838 PRs</span></div>
+            <div className="demo-line t-green">✓ trace complete</div>
+          </TerminalWindow>
         </Reveal>
       </section>
 
@@ -166,19 +146,14 @@ export default async function Home({ searchParams }) {
                 </ul>
               </Reveal>
               <Reveal className="split-window" delay={0.1} y={22}>
-                <div className="demo-window">
-                  <div className="demo-bar">
-                    <span className="demo-dot" /><span className="demo-dot" /><span className="demo-dot live" />
-                    <span className="demo-title">vercel/next.js · pull requests</span>
-                  </div>
-                  <div className="demo-body">
-                    <div className="demo-line"><span style={{ color: '#16a34a' }}>● merged</span>&nbsp;&nbsp;fix: hydration mismatch on stream</div>
-                    <div className="demo-line"><span style={{ color: 'var(--accent)' }}>● open</span>&nbsp;&nbsp;&nbsp;&nbsp;feat: partial prerendering flag</div>
-                    <div className="demo-line"><span style={{ color: '#16a34a' }}>● merged</span>&nbsp;&nbsp;docs: clarify cache semantics</div>
-                    <div className="demo-line"><span style={{ color: '#dc2626' }}>● closed</span>&nbsp;&nbsp;chore: bump internal dep</div>
-                    <div className="demo-line" style={{ marginTop: 12, color: 'var(--text-dim)' }}>merge rate <b style={{ color: 'var(--text)' }}>81%</b> · avg <b style={{ color: 'var(--text)' }}>1.9d</b> to merge</div>
-                  </div>
-                </div>
+                <TerminalWindow title="vercel/next.js — pull requests">
+                  <div className="demo-line"><span className="t-green">● merged</span>  fix: hydration mismatch on stream</div>
+                  <div className="demo-line"><span className="t-yellow">● open</span>    feat: partial prerendering flag</div>
+                  <div className="demo-line"><span className="t-green">● merged</span>  docs: clarify cache semantics</div>
+                  <div className="demo-line"><span className="t-red">● closed</span>  chore: bump internal dep</div>
+                  <div className="demo-line"> </div>
+                  <div className="demo-line t-dim">merge rate <span className="t-white">81%</span> · avg <span className="t-white">1.9d</span> to merge</div>
+                </TerminalWindow>
               </Reveal>
             </div>
           </div>
@@ -209,18 +184,15 @@ export default async function Home({ searchParams }) {
           <div className="col">
             <div className="split">
               <Reveal className="split-window" y={22}>
-                <div className="demo-window">
-                  <div className="demo-bar">
-                    <span className="demo-dot" /><span className="demo-dot" /><span className="demo-dot live" />
-                    <span className="demo-title">torvalds · repository trail</span>
-                  </div>
-                  <div className="demo-body">
-                    <div className="demo-line"><span style={{ color: 'var(--accent)' }}>→</span> torvalds/linux <span style={{ color: 'var(--text-faint)' }}>838 PRs · 96% merged</span></div>
-                    <div className="demo-line"><span style={{ color: 'var(--accent)' }}>→</span> torvalds/subsurface <span style={{ color: 'var(--text-faint)' }}>142 PRs · 88% merged</span></div>
-                    <div className="demo-line"><span style={{ color: 'var(--accent)' }}>→</span> torvalds/test-tlb <span style={{ color: 'var(--text-faint)' }}>9 PRs · 100% merged</span></div>
-                    <div className="demo-line" style={{ marginTop: 12, color: 'var(--text-dim)' }}>ranked by where real effort lands</div>
-                  </div>
-                </div>
+                <TerminalWindow title="torvalds — repository trail">
+                  <div className="demo-line"><span className="prompt">❯</span> waypoint trace torvalds --repos</div>
+                  <div className="demo-line"> </div>
+                  <div className="demo-line"><span className="t-dim">  →</span> torvalds/linux       <span className="t-dim">838 PRs · </span><span className="t-green">96% merged</span></div>
+                  <div className="demo-line"><span className="t-dim">  →</span> torvalds/subsurface  <span className="t-dim">142 PRs · </span><span className="t-green">88% merged</span></div>
+                  <div className="demo-line"><span className="t-dim">  →</span> torvalds/test-tlb    <span className="t-dim">  9 PRs · </span><span className="t-green">100% merged</span></div>
+                  <div className="demo-line"> </div>
+                  <div className="demo-line t-dim">ranked by where real effort lands</div>
+                </TerminalWindow>
               </Reveal>
               <Reveal className="split-text" delay={0.1}>
                 <h2>What Waypoint actually does.</h2>
@@ -290,22 +262,22 @@ export default async function Home({ searchParams }) {
 
       {/* ---------------- faq ---------------- */}
       <section className="sec" id="faq">
-        <div className="frame">
+        <div className="frame gutter-hatch">
           <div className="col">
             <Reveal className="sec-head">
               <div className="sec-eyebrow"><span className="ic">?</span> <span className="lbl">questions</span></div>
               <h2>Frequently asked.</h2>
             </Reveal>
-          </div>
-          <div className="cell-grid cols-2">
-            {faqs.map(({ q, a }, i) => (
-              <Reveal key={q} delay={i * 0.05}>
-                <details className="faq-cell">
-                  <summary>{q}</summary>
-                  <p>{a}</p>
-                </details>
-              </Reveal>
-            ))}
+            <div className="cell-grid cols-2">
+              {faqs.map(({ q, a }, i) => (
+                <Reveal key={q} delay={i * 0.05}>
+                  <details className="faq-cell">
+                    <summary>{q}</summary>
+                    <p>{a}</p>
+                  </details>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
