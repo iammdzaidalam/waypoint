@@ -7,17 +7,24 @@ import SiteFooter from '../components/SiteFooter';
 
 // Matter — the sans for all UI + headings. Variable upright cuts (wght 100–1000).
 // To swap in a different Matter file later, replace the path below; nothing else changes.
+//
+// display 'block' rather than 'swap': the page should come up already set in
+// Matter instead of painting Arial and reflowing to Matter a moment later.
+// That is only safe because the file is preloaded (see <html> below) — with
+// 'block' and no preload the text would stay invisible until the font lands.
 const matter = localFont({
   src: [{ path: '../../public/fonts/MatterUprights-VF.woff2', weight: '100 1000', style: 'normal' }],
   variable: '--font-matter',
-  display: 'swap',
+  display: 'block',
+  preload: true,
 });
 
 // Matter SemiMono — the mono for labels, code chips, and data (static Regular).
 const matterMono = localFont({
   src: [{ path: '../../public/fonts/MatterSemiMonoRegular.woff2', weight: '400', style: 'normal' }],
   variable: '--font-matter-mono',
-  display: 'swap',
+  display: 'block',
+  preload: true,
 });
 
 const siteUrl = 'https://github-waypoint.vercel.app';
@@ -117,8 +124,14 @@ const websiteJsonLd = {
 };
 
 export default function RootLayout({ children }) {
+  // matter.className alongside the two .variable classes is what makes Next
+  // emit <link rel="preload" as="font">. It only preloads a font it can see
+  // applied to an element; a font referenced purely through a CSS custom
+  // property reads as unused and gets no preload at all.
+  const htmlClass = `${matter.variable} ${matterMono.variable} ${matter.className}`;
+
   return (
-    <html lang="en" suppressHydrationWarning className={`${matter.variable} ${matterMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={htmlClass}>
       <head>
         <script
           type="application/ld+json"

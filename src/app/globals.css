@@ -31,18 +31,17 @@
   --line: #e5e5e5;
   --line-strong: #d6d3d1;
 
-  /* Warm orange accent. #c2461f rather than the lighter #e0562a because
-     this one colour has to work both as small text on white and as a
-     band with white text on it: it clears 5.01:1 in both directions,
-     where #e0562a only managed 3.79:1 and failed AA at body sizes. */
-  --accent: #c2461f;
-  --accent-strong: #a33a17;
-  --accent-soft: rgba(194, 70, 31, 0.10);
-  --accent-rgb: 194, 70, 31;
+  /* The original warm orange. It measures 3.79:1 against white, so it
+     clears AA for large text but not for body-size copy either as text on
+     white or as a band under white text. Chosen deliberately. */
+  --accent: #e0562a;
+  --accent-strong: #b8431f;
+  --accent-soft: rgba(224, 86, 42, 0.10);
+  --accent-rgb: 224, 86, 42;
 
   /* full-bleed hero band */
-  --hero-band: #c2461f;
-  --hero-band-2: #ad3e1b;
+  --hero-band: #e0562a;
+  --hero-band-2: #cc4a20;
   --hero-ink: #ffffff;
   /* 0.88 not 0.72: dimmed white needs weight to stay readable on orange */
   --hero-ink-dim: rgba(255, 255, 255, 1);
@@ -105,8 +104,8 @@
   --accent-soft: rgba(255, 138, 92, 0.16);
   --accent-rgb: 255, 138, 92;
 
-  --hero-band: #c2461f;
-  --hero-band-2: #a83c1a;
+  --hero-band: #cc4a20;
+  --hero-band-2: #b8431f;
   --hero-ink: #ffffff;
   --hero-ink-dim: rgba(255, 255, 255, 0.88);
 
@@ -1504,8 +1503,6 @@ ul.timeline li:nth-child(n + 6) {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  -webkit-mask-image: radial-gradient(ellipse 95% 75% at 50% 25%, #000 35%, transparent 85%);
-  mask-image: radial-gradient(ellipse 95% 75% at 50% 25%, #000 35%, transparent 85%);
 }
 
 .hero-badge {
