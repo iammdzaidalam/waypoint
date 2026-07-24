@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitHub Waypoint
 
-## Getting Started
+**Live at [github-waypoint.vercel.app](https://github-waypoint.vercel.app)**
 
-First, run the development server:
+Waypoint is a free GitHub activity tracer. Search any **username**, **organization**, or **owner/repo** and see where they actually spend their time: pull requests opened, merge rates, review speed, top repositories, and likely maintainers.
+
+![GitHub Waypoint](https://github-waypoint.vercel.app/opengraph-image)
+
+## What it shows
+
+- **Users**: lifetime PRs, merge rate, repository contribution trail, activity mix, and a recent public-events timeline. Click any repo in the trail to inspect the exact PRs and issues behind it.
+- **Organizations**: the most recently active repositories, inferred key contributors, and official public members worth reaching out to.
+- **Repositories**: pull request analytics over a chosen window and branch, including merge rate, average days to merge, label distribution, top contributors, and recent PRs/issues, exportable as CSV or JSON.
+
+## Why
+
+Contribution graphs hide the story. A wall of green squares says nothing about whether PRs get merged, how fast a project reviews community work, or who actually maintains it. Waypoint answers the questions you have before contributing to a project, hiring a developer, or showcasing your own open source footprint.
+
+## Usage notes
+
+- No login required. Everything reads public data from the official GitHub API.
+- Optional: add a [personal access token](https://github.com/settings/tokens/new?description=Waypoint) (no scopes needed) to raise the rate limit from 60 to 5,000 requests/hour. The token is stored only in your browser's localStorage.
+- Trace pages are shareable URLs: `github-waypoint.vercel.app/torvalds` or `github-waypoint.vercel.app/vercel/next.js`.
+
+## Tech stack
+
+Next.js (App Router) on Vercel, React, Tailwind CSS, and the GitHub REST API. Monochrome "paper and ink" design with Geist Pixel, JetBrains Mono, and Space Grotesk.
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Author
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by [@iammdzaidalam](https://github.com/iammdzaidalam). Issues and PRs welcome.

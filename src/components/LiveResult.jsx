@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { analyzeQuery } from '../lib/analyze';
 import ResultsClient from './ResultsClient';
+import Image from 'next/image';
 
 function LightHeader({ initial }) {
   const isRepo = !!initial.full_name;
@@ -12,7 +13,7 @@ function LightHeader({ initial }) {
 
   return (
     <div className="subject-card fade-in">
-      {avatarUrl && <img src={`${avatarUrl}&s=112`} alt={`${login} avatar`} width={56} height={56} />}
+      {avatarUrl && <Image src={`${avatarUrl}&s=112`} alt={`${login} avatar`} width={56} height={56} />}
       <div>
         <div className="name">{name}</div>
         <div className="login">@{login}</div>

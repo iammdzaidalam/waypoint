@@ -13,18 +13,18 @@ export default function Image() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          background: '#faf9f5',
-          padding: '80px',
+          background: '#ffffff',
+          padding: '90px',
         }}
       >
-        <div style={{ display: 'flex', fontSize: 28, letterSpacing: 4, color: '#a16207', fontWeight: 600 }}>
-          GITHUB ACTIVITY TRACER
+        <div style={{ display: 'flex', fontSize: 30, color: '#57534e', fontWeight: 500 }}>
+          <span style={{ color: '#155dfc', marginRight: 14 }}>//</span> github activity tracer
         </div>
-        <div style={{ display: 'flex', fontSize: 108, fontWeight: 700, color: '#1b1a17', marginTop: 20 }}>
-          Waypoint
+        <div style={{ display: 'flex', fontSize: 104, fontWeight: 600, color: '#2a2524', marginTop: 26, letterSpacing: -2 }}>
+          waypoint
         </div>
-        <div style={{ display: 'flex', fontSize: 32, color: '#5f5c54', marginTop: 24, maxWidth: 900 }}>
-          Find where they actually spend their time on GitHub
+        <div style={{ display: 'flex', fontSize: 34, color: '#57534e', marginTop: 24, maxWidth: 940, lineHeight: 1.35 }}>
+          See where developers actually spend their time on GitHub.
         </div>
       </div>
     ),
