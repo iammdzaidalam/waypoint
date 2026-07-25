@@ -1,39 +1,34 @@
 import './globals.css';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
-import { JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import localFont from 'next/font/local';
-import AppChrome from '../components/AppChrome';
-import AsciiField from '../components/AsciiField';
+import NavBar from '../components/NavBar';
+import SiteFooter from '../components/SiteFooter';
 
-// Geist Pixel by Vercel, vendored from the `geist` npm package (SIL OFL).
-// The Circle variant reads as LED dot lettering.
-const geistPixel = localFont({
-  src: './fonts/GeistPixel-Circle.woff2',
-  weight: '500',
-  style: 'normal',
-  variable: '--font-geist-pixel',
-  display: 'swap',
-  adjustFontFallback: false,
-  fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+// Matter - the sans for all UI + headings. Variable upright cuts (wght 100-1000).
+// To swap in a different Matter file later, replace the path below; nothing else changes.
+//
+// display 'block' rather than 'swap': the page should come up already set in
+// Matter instead of painting Arial and reflowing to Matter a moment later.
+// That is only safe because the file is preloaded (see <html> below) - with
+// 'block' and no preload the text would stay invisible until the font lands.
+const matter = localFont({
+  src: [{ path: '../../public/fonts/MatterUprights-VF.woff2', weight: '100 1000', style: 'normal' }],
+  variable: '--font-matter',
+  display: 'block',
+  preload: true,
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-space-grotesk',
-  display: 'swap',
+// Matter SemiMono - the mono for labels, code chips, and data (static Regular).
+const matterMono = localFont({
+  src: [{ path: '../../public/fonts/MatterSemiMonoRegular.woff2', weight: '400', style: 'normal' }],
+  variable: '--font-matter-mono',
+  display: 'block',
+  preload: true,
 });
 
 const siteUrl = 'https://github-waypoint.vercel.app';
-const title = 'Waypoint · Find where they actually spend their time on GitHub';
+const title = 'GitHub Waypoint · Find where they actually spend their time on GitHub';
 const description = 'Trace a GitHub user, org, or repo to see real contribution activity: merge rates, review speed, top contributors, and recent pull requests and issues.';
 
 export const metadata = {
@@ -44,6 +39,9 @@ export const metadata = {
   },
   description,
   keywords: [
+    'github-waypoint.vercel.app',
+    'waypoint github',
+    'github waypoint',
     'github activity tracker',
     'github contribution analytics',
     'pull request analytics',
@@ -52,6 +50,9 @@ export const metadata = {
     'github repo analytics',
   ],
   authors: [{ name: 'iammdzaidalam', url: 'https://github.com/iammdzaidalam' }],
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
   creator: 'iammdzaidalam',
   alternates: {
     canonical: siteUrl,
@@ -87,15 +88,16 @@ export const metadata = {
 
 export const viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#efede7' },
-    { media: '(prefers-color-scheme: dark)', color: '#09090c' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0c0a09' },
   ],
 };
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: 'Waypoint',
+  name: 'GitHub Waypoint',
+  alternateName: ['waypoint github', 'github-waypoint.vercel.app'],
   url: siteUrl,
   description,
   applicationCategory: 'DeveloperApplication',
@@ -103,13 +105,41 @@ const jsonLd = {
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 };
 
+// WebSite schema: tells Google the canonical site name for "waypoint" queries
+// and makes trace URLs eligible for the sitelinks search box.
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'GitHub Waypoint',
+  alternateName: ['Waypoint', 'waypoint github'],
+  url: siteUrl,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteUrl}/{search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
 export default function RootLayout({ children }) {
+  // matter.className alongside the two .variable classes is what makes Next
+  // emit <link rel="preload" as="font">. It only preloads a font it can see
+  // applied to an element; a font referenced purely through a CSS custom
+  // property reads as unused and gets no preload at all.
+  const htmlClass = `${matter.variable} ${matterMono.variable} ${matter.className}`;
+
   return (
-    <html lang="en" suppressHydrationWarning className={`${jetbrainsMono.variable} ${spaceGrotesk.variable} ${geistPixel.variable}`}>
+    <html lang="en" suppressHydrationWarning className={htmlClass}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
       <body>
@@ -123,9 +153,9 @@ export default function RootLayout({ children }) {
             })();
           `}
         </Script>
-        <AsciiField />
-        <AppChrome />
+        <NavBar />
         {children}
+        <SiteFooter />
         <Analytics />
       </body>
     </html>

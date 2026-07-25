@@ -48,7 +48,11 @@ export default async function UserOrOrgPage({ params }) {
   return (
     <div className="wrap">
       <AsciiDissolve>
-        <SearchBar initialQuery={owner} />
+        <div className="frame">
+          <div className="col result-search">
+            <SearchBar initialQuery={owner} />
+          </div>
+        </div>
         <LiveResult query={owner} initial={data} />
       </AsciiDissolve>
     </div>

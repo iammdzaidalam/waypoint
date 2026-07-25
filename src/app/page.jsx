@@ -1,9 +1,13 @@
 import { permanentRedirect } from 'next/navigation';
-import SearchBar from '../components/SearchBar';
-import TokenBox from '../components/TokenBox';
-import RecentSearches from '../components/RecentSearches';
-import AsciiDissolve from '../components/AsciiDissolve';
 import { buildTracePath } from '../lib/utils';
+import { faqJsonLd } from '../content/home';
+
+import Hero from '../components/home/Hero';
+import Problem from '../components/home/Problem';
+import { VisibilitySplit, WhatItDoes } from '../components/home/Splits';
+import { ChipStrip, Features, SmallThings } from '../components/home/Features';
+import CliCallout from '../components/home/CliCallout';
+import { Faq, ClosingCta } from '../components/home/Faq';
 
 export default async function Home({ searchParams }) {
   const params = await searchParams;
@@ -13,39 +17,22 @@ export default async function Home({ searchParams }) {
   }
 
   return (
-    <div className="wrap">
-      <div className="hero-section">
-        <div className="eyebrow">GITHUB ACTIVITY TRACER</div>
-        <h1 className="title">Waypoint</h1>
-        <p className="tagline">Uncover exactly where developers spend their time. Track open source activity, review speeds, and hidden contributions instantly.</p>
-      </div>
+    <>
+      <Hero />
+      <Problem />
+      <VisibilitySplit />
+      <ChipStrip />
+      <WhatItDoes />
+      <Features />
+      <SmallThings />
+      <CliCallout />
+      <Faq />
+      <ClosingCta />
 
-      <SearchBar />
-
-      <TokenBox />
-
-
-      <div className="features-grid fade-in" style={{ marginTop: '40px' }}>
-        <div className="feature-box">
-          <div className="icon">📊</div>
-          <h3>Activity Tracing</h3>
-          <p>Trace a developer's exact footprint across commits and PRs.</p>
-        </div>
-        <div className="feature-box">
-          <div className="icon">⏱️</div>
-          <h3>Review Speeds</h3>
-          <p>Track how fast repositories merge community PRs.</p>
-        </div>
-        <div className="feature-box">
-          <div className="icon">👥</div>
-          <h3>Maintainer Insights</h3>
-          <p>Identify the true maintainers carrying the project's workload.</p>
-        </div>
-      </div>
-
-      <AsciiDissolve delay={160}>
-        <RecentSearches />
-      </AsciiDissolve>
-    </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+    </>
   );
 }

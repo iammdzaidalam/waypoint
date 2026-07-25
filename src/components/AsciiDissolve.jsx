@@ -78,7 +78,7 @@ export default function AsciiDissolve({ trigger, delay = 0, children }) {
       }
     };
 
-    render(0); // full cover before the first painted frame — no flash
+    render(0); // full cover before the first painted frame - no flash
     raf = requestAnimationFrame(frame);
 
     return () => {

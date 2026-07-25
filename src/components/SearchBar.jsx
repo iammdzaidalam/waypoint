@@ -26,13 +26,15 @@ export default function SearchBar({ initialQuery = '' }) {
   return (
     <>
       <form className="searchForm" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          placeholder="username, org, or owner/repo"
-          autoComplete="off"
-        />
+        <div className="search-field">
+          <input
+            type="text"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="username, org, or owner/repo"
+            autoComplete="off"
+          />
+        </div>
         <button type="submit" className="traceBtn" disabled={loading}>Trace</button>
       </form>
       {formatError && <div className="error-box fade-in">{formatError}</div>}

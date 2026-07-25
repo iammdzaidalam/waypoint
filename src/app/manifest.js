@@ -1,6 +1,6 @@
 export default function manifest() {
   return {
-    name: 'Waypoint — GitHub Activity Tracer',
+    name: 'Waypoint · GitHub Activity Tracer',
     short_name: 'Waypoint',
     description: 'Trace a GitHub user, org, or repo to see real contribution activity.',
     start_url: '/',

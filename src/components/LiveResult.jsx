@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { analyzeQuery } from '../lib/analyze';
 import ResultsClient from './ResultsClient';
+import { ResultHeadInner } from './ResultLayout';
 
 function LightHeader({ initial }) {
   const isRepo = !!initial.full_name;
@@ -11,13 +12,14 @@ function LightHeader({ initial }) {
   const bio = isRepo ? initial.description : initial.bio;
 
   return (
-    <div className="subject-card fade-in">
-      {avatarUrl && <img src={`${avatarUrl}&s=112`} alt={`${login} avatar`} width={56} height={56} />}
-      <div>
-        <div className="name">{name}</div>
-        <div className="login">@{login}</div>
-        {bio && <div className="bio">{bio}</div>}
-      </div>
+    <div className="fade-in border-b border-line">
+      <ResultHeadInner
+        avatar={avatarUrl ? `${avatarUrl}&s=112` : null}
+        alt={`${login} avatar`}
+        name={name}
+        meta={`@${login}`}
+        bio={bio}
+      />
     </div>
   );
 }
@@ -63,7 +65,8 @@ export default function LiveResult({ query, forceType, initial }) {
   if (result) return <ResultsClient data={result} />;
 
   return (
-    <>
+    <div className="frame">
+      <div className="col pb-16">
       {initial && <LightHeader initial={initial} />}
       {status && <div className="status">{status}</div>}
       {error && (
@@ -100,6 +103,7 @@ export default function LiveResult({ query, forceType, initial }) {
           )}
         </div>
       )}
-    </>
+      </div>
+    </div>
   );
 }

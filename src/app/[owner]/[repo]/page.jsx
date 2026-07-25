@@ -40,7 +40,11 @@ export default async function RepoPage({ params }) {
   return (
     <div className="wrap">
       <AsciiDissolve>
-        <SearchBar initialQuery={fullName} />
+        <div className="frame">
+          <div className="col result-search">
+            <SearchBar initialQuery={fullName} />
+          </div>
+        </div>
         <LiveResult query={fullName} forceType="repo" initial={data} />
       </AsciiDissolve>
     </div>
