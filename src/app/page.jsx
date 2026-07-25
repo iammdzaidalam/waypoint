@@ -6,6 +6,7 @@ import Hero from '../components/home/Hero';
 import Problem from '../components/home/Problem';
 import { VisibilitySplit, WhatItDoes } from '../components/home/Splits';
 import { ChipStrip, Features, SmallThings } from '../components/home/Features';
+import CliCallout from '../components/home/CliCallout';
 import { Faq, ClosingCta } from '../components/home/Faq';
 
 export default async function Home({ searchParams }) {
@@ -24,6 +25,7 @@ export default async function Home({ searchParams }) {
       <WhatItDoes />
       <Features />
       <SmallThings />
+      <CliCallout />
       <Faq />
       <ClosingCta />
 

@@ -2,7 +2,7 @@ import SearchBar from '../SearchBar';
 import TokenBox from '../TokenBox';
 import RecentSearches from '../RecentSearches';
 import Reveal from '../Reveal';
-import TerminalWindow from '../TerminalWindow';
+import { AppWindow, AppId, AppStats, AppRows, AppRow } from '../AppWindow';
 import HeroGrid from './HeroGrid';
 
 export default function Hero() {
@@ -25,17 +25,15 @@ export default function Hero() {
       </div>
 
       <Reveal className="hero-window-wrap" y={26} delay={0.1}>
-        <TerminalWindow title="waypoint — trace">
-          <div className="demo-line"><span className="prompt">❯</span> waypoint trace torvalds</div>
-          <div className="demo-line t-dim">  resolving user · reading public events · aggregating pull requests</div>
-          <div className="demo-line"> </div>
-          <div className="demo-line"><span className="t-dim">  PRs opened   </span><span className="t-white">1,204</span></div>
-          <div className="demo-line"><span className="t-dim">  merge rate   </span><span className="t-green">92%</span></div>
-          <div className="demo-line"><span className="t-dim">  avg to merge </span><span className="t-yellow">2.4d</span></div>
-          <div className="demo-line"> </div>
-          <div className="demo-line"><span className="t-dim">  →</span> most active in torvalds/linux <span className="t-dim">· 838 PRs</span></div>
-          <div className="demo-line t-green">✓ trace complete</div>
-        </TerminalWindow>
+        <AppWindow url="github-waypoint.vercel.app/torvalds">
+          <AppId initial="◆" name="Linus Torvalds" sub="@torvalds · 12 repos · 313k followers" />
+          <AppStats items={[['85', 'PRs opened'], ['72', 'merged'], ['85%', 'merge rate', 'green']]} />
+          <AppRows>
+            <AppRow main="torvalds/linux" trail="838 PRs · 96%" />
+            <AppRow main="torvalds/subsurface" trail="142 PRs · 88%" />
+            <AppRow main="torvalds/test-tlb" trail="9 PRs · 100%" />
+          </AppRows>
+        </AppWindow>
       </Reveal>
     </section>
   );

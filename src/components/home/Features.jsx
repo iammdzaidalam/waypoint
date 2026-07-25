@@ -32,7 +32,9 @@ export function Features() {
             <span className="ic" style={{ background: f.bg, color: f.color }} aria-hidden="true">{f.icon}</span>
             <h3>{f.t}</h3>
             <p>{f.d}</p>
-            <code className="code-chip"><span className="tok">❯</span> {f.code}</code>
+            <a className="route-chip" href={f.path}>
+              <span className="tok">↗</span> github-waypoint.vercel.app<span className="route-path">{f.path}</span>
+            </a>
           </Reveal>
         ))}
       </div>

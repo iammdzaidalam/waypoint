@@ -2,7 +2,7 @@ import Reveal from '../Reveal';
 
 // Every landing section is the same shell: a hatch band, then a bordered
 // frame with an optional centred head. Kept in one place so the frame and
-// hatch structure can't drift between sections — that drift is what broke
+// hatch structure can't drift between sections - that drift is what broke
 // the vertical rules before.
 //
 // Padding lives on the frame rather than the <section>: on the section it
@@ -21,7 +21,7 @@ export default function Section({
   flush,
   hatch = true,
   // Put the head and the body in ONE .col rather than two. Matters in a
-  // gutter section, where every .col draws its own side rules — two of
+  // gutter section, where every .col draws its own side rules - two of
   // them would stack a seam between the head and the body.
   contained,
   children,

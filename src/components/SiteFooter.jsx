@@ -32,7 +32,7 @@ export default function SiteFooter() {
       </div>
 
       {/* Sits last and is clipped by the footer's overflow, so only the
-          top of the letterforms shows — same as the reference. */}
+          top of the letterforms shows - same as the reference. */}
       <div className="footer-wordmark" aria-hidden="true">
         <Wordmark height={260} />
       </div>

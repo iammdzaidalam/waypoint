@@ -9,7 +9,7 @@ export function ResultHeadInner({ avatar, alt, name, meta, bio, aside }) {
   return (
     <div className="flex flex-wrap items-center gap-5 py-8">
       {avatar && (
-        <Image src={avatar} alt={alt} width={56} height={56} className="shrink-0 border border-line" />
+        <Image src={avatar} alt={alt} width={56} height={56} draggable={false} className="shrink-0 border border-line" />
       )}
       <div className="min-w-0 flex-1">
         <div className="text-[26px] leading-tight font-medium">{name}</div>
@@ -100,7 +100,7 @@ export function PersonCell({ avatar, login, meta, tag, onTrace }) {
   return (
     <div className="flex h-full flex-col items-start gap-4">
       <div className="flex items-center gap-4">
-        <Image src={avatar} alt={`${login} avatar`} width={56} height={56} className="shrink-0 border border-line" />
+        <Image src={avatar} alt={`${login} avatar`} width={56} height={56} draggable={false} className="shrink-0 border border-line" />
         <div className="min-w-0">
           <div className="truncate font-mono text-[15px]">{login}</div>
           {meta && <div className="mt-1 font-mono text-[13px] leading-relaxed text-text-faint">{meta}</div>}

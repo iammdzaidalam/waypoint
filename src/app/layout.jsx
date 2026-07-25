@@ -5,12 +5,12 @@ import localFont from 'next/font/local';
 import NavBar from '../components/NavBar';
 import SiteFooter from '../components/SiteFooter';
 
-// Matter — the sans for all UI + headings. Variable upright cuts (wght 100–1000).
+// Matter - the sans for all UI + headings. Variable upright cuts (wght 100-1000).
 // To swap in a different Matter file later, replace the path below; nothing else changes.
 //
 // display 'block' rather than 'swap': the page should come up already set in
 // Matter instead of painting Arial and reflowing to Matter a moment later.
-// That is only safe because the file is preloaded (see <html> below) — with
+// That is only safe because the file is preloaded (see <html> below) - with
 // 'block' and no preload the text would stay invisible until the font lands.
 const matter = localFont({
   src: [{ path: '../../public/fonts/MatterUprights-VF.woff2', weight: '100 1000', style: 'normal' }],
@@ -19,7 +19,7 @@ const matter = localFont({
   preload: true,
 });
 
-// Matter SemiMono — the mono for labels, code chips, and data (static Regular).
+// Matter SemiMono - the mono for labels, code chips, and data (static Regular).
 const matterMono = localFont({
   src: [{ path: '../../public/fonts/MatterSemiMonoRegular.woff2', weight: '400', style: 'normal' }],
   variable: '--font-matter-mono',

@@ -4,7 +4,7 @@ import white from '../../public/brand/waypoint-white.png';
 
 // Both files ship and CSS picks one via [data-theme]. Doing the swap in
 // CSS rather than from React state means the right mark is painted on the
-// first frame — a state-driven swap would flash the wrong one on load.
+// first frame - a state-driven swap would flash the wrong one on load.
 const RATIO = 1400 / 313;
 
 export default function Wordmark({ height = 20, className = '', priority = false }) {
@@ -16,6 +16,7 @@ export default function Wordmark({ height = 20, className = '', priority = false
     height,
     width: Math.round(height * RATIO),
     priority,
+    draggable: false,
   };
   return (
     <span className={`wordmark ${className}`} style={{ height }}>

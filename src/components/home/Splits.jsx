@@ -1,8 +1,8 @@
 import Reveal from '../Reveal';
 import Section from './Section';
-import TerminalWindow from '../TerminalWindow';
+import { AppWindow, AppId, AppStats, AppRows, AppRow } from '../AppWindow';
 
-// Two mirrored text/terminal splits. Same shell, opposite order.
+// Two mirrored text/preview splits. Same shell, opposite order.
 
 export function VisibilitySplit() {
   return (
@@ -22,14 +22,19 @@ export function VisibilitySplit() {
             </ul>
           </Reveal>
           <Reveal className="split-window" delay={0.1} y={22}>
-            <TerminalWindow title="vercel/next.js — pull requests">
-              <div className="demo-line"><span className="t-green">● merged</span>  fix: hydration mismatch on stream</div>
-              <div className="demo-line"><span className="t-yellow">● open</span>    feat: partial prerendering flag</div>
-              <div className="demo-line"><span className="t-green">● merged</span>  docs: clarify cache semantics</div>
-              <div className="demo-line"><span className="t-red">● closed</span>  chore: bump internal dep</div>
-              <div className="demo-line"> </div>
-              <div className="demo-line t-dim">merge rate <span className="t-white">81%</span> · avg <span className="t-white">1.9d</span> to merge</div>
-            </TerminalWindow>
+            <AppWindow url="github-waypoint.vercel.app/vercel/next.js">
+              <AppId initial="▲" name="vercel/next.js" sub="The React Framework · 141k stars" />
+              <AppStats items={[
+                ['210', 'merged', 'magenta'],
+                ['230', 'open', 'green'],
+                ['78%', 'merge rate', 'green'],
+              ]} />
+              <AppRows>
+                <AppRow lead="merged" tone="magenta" main="fix: hydration mismatch on stream" trail="1.2d" />
+                <AppRow lead="open" tone="green" main="feat: partial prerendering flag" trail="·" />
+                <AppRow lead="closed" tone="red" main="chore: bump internal dep" trail="3.0d" />
+              </AppRows>
+            </AppWindow>
           </Reveal>
         </div>
       </div>
@@ -43,15 +48,15 @@ export function WhatItDoes() {
       <div className="col">
         <div className="split">
           <Reveal className="split-window" y={22}>
-            <TerminalWindow title="torvalds — repository trail">
-              <div className="demo-line"><span className="prompt">❯</span> waypoint trace torvalds --repos</div>
-              <div className="demo-line"> </div>
-              <div className="demo-line"><span className="t-dim">  →</span> torvalds/linux       <span className="t-dim">838 PRs · </span><span className="t-green">96% merged</span></div>
-              <div className="demo-line"><span className="t-dim">  →</span> torvalds/subsurface  <span className="t-dim">142 PRs · </span><span className="t-green">88% merged</span></div>
-              <div className="demo-line"><span className="t-dim">  →</span> torvalds/test-tlb    <span className="t-dim">  9 PRs · </span><span className="t-green">100% merged</span></div>
-              <div className="demo-line"> </div>
-              <div className="demo-line t-dim">ranked by where real effort lands</div>
-            </TerminalWindow>
+            <AppWindow url="github-waypoint.vercel.app/torvalds">
+              <AppId initial="◆" name="Linus Torvalds" sub="@torvalds · repositories, last 90 days" />
+              <AppRows>
+                <AppRow main="torvalds/linux" trail="838 PRs · 96%" />
+                <AppRow main="torvalds/subsurface" trail="142 PRs · 88%" />
+                <AppRow main="torvalds/test-tlb" trail="9 PRs · 100%" />
+                <AppRow main="torvalds/uemacs" trail="4 PRs · 75%" />
+              </AppRows>
+            </AppWindow>
           </Reveal>
           <Reveal className="split-text" delay={0.1}>
             <h2>What Waypoint actually does.</h2>

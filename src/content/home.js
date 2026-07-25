@@ -31,10 +31,10 @@ export const problems = [
 ];
 
 export const features = [
-  { icon: '◷', bg: 'var(--accent-soft)', color: 'var(--accent)', t: 'Lifetime PR analytics', d: 'Every pull request a developer has opened, how many merged, and their true merge rate across their whole public history.', code: 'waypoint trace torvalds --prs' },
-  { icon: '⚡', bg: 'rgba(22,163,74,0.14)', color: '#16a34a', t: 'Merge rate & review speed', d: 'For any repo: merge rate on decided PRs, average days to merge, and how fast the community actually ships.', code: 'waypoint trace vercel/next.js' },
-  { icon: '⌖', bg: 'rgba(220,38,38,0.12)', color: '#dc2626', t: 'Find the real maintainers', d: 'Search an org and Waypoint surfaces its most active repos and the people who genuinely keep them moving.', code: 'waypoint trace vercel --org' },
-  { icon: '⇲', bg: 'rgba(147,51,234,0.14)', color: '#9333ea', t: 'Contribution trails', d: 'Follow a developer across repositories, issues, and PRs, ranked by where they put in real, sustained effort.', code: 'waypoint trace sindresorhus' },
+  { icon: '◷', bg: 'var(--accent-soft)', color: 'var(--accent)', t: 'Lifetime PR analytics', d: 'Every pull request a developer has opened, how many merged, and their true merge rate across their whole public history.', path: '/torvalds' },
+  { icon: '⚡', bg: 'rgba(22,163,74,0.14)', color: '#16a34a', t: 'Merge rate & review speed', d: 'For any repo: merge rate on decided PRs, average days to merge, and how fast the community actually ships.', path: '/vercel/next.js' },
+  { icon: '⌖', bg: 'rgba(220,38,38,0.12)', color: '#dc2626', t: 'Find the real maintainers', d: 'Search an org and Waypoint surfaces its most active repos and the people who genuinely keep them moving.', path: '/vercel' },
+  { icon: '⇲', bg: 'rgba(147,51,234,0.14)', color: '#9333ea', t: 'Contribution trails', d: 'Follow a developer across repositories, issues, and PRs, ranked by where they put in real, sustained effort.', path: '/sindresorhus' },
 ];
 
 export const minis = [
@@ -43,7 +43,7 @@ export const minis = [
   { icon: '◉', t: 'Live GitHub data', d: 'Every trace reads straight from the official GitHub API.' },
   { icon: '⧉', t: 'Users, orgs & repos', d: 'One search box handles all three kinds of target.' },
   { icon: '↧', t: 'Export CSV / JSON', d: 'Pull any repo’s pull request data out for your own analysis.' },
-  { icon: '◐', t: 'Light & dark', d: 'A calm light theme and a full dark theme, your choice.' },
+  { icon: '◔', t: 'Honest merge rate', d: 'Measured over decided PRs, never padded by the ones still open.' },
   { icon: '⌘', t: 'Open source', d: 'MIT licensed and self-hostable from the GitHub repo.' },
   { icon: '↗', t: 'Shareable URLs', d: 'Every trace is a plain, linkable, indexable route.' },
 ];

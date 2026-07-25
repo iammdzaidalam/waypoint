@@ -26,6 +26,7 @@ export default function NavBar() {
         </a>
 
         <div className="nav-right">
+          <a href="/cli" className="nav-link">CLI</a>
           <a
             href="https://github.com/iammdzaidalam/waypoint"
             target="_blank"
